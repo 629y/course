@@ -7,7 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>server</artifactId>
+    <artifactId>system</artifactId>
     <packaging>jar</packaging>
     <dependencies>
         <!-- 热部署DevTools -->
@@ -24,6 +24,10 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.course</groupId>
+            <artifactId>server</artifactId>
         </dependency>
     <dependency>
         <groupId>org.springframework.cloud</groupId>
