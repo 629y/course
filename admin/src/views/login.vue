@@ -73,10 +73,15 @@
 </template>
 
 <script>
-$('body').attr('class', 'login-layout light-login');
+
 export default {
   // eslint-disable-next-line
-  name: 'login',
+  name: "login",
+  mounted:function () {
+    $("body").removeClass("no-skin");
+    $("body").attr("class", "login-layout light-login");
+    // console.log("login");
+  },
   methods:{
     login(){
       this.$router.push("/admin")
