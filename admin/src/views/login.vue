@@ -73,6 +73,7 @@
 <script>
 $('body').attr('class', 'login-layout light-login');
 export default {
+  // eslint-disable-next-line
   name: 'login',
 }
 </script>
