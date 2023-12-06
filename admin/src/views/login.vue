@@ -75,7 +75,6 @@
 <script>
 
 export default {
-  // eslint-disable-next-line
   name: "login",
   mounted:function () {
     $("body").removeClass("no-skin");

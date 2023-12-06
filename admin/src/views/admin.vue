@@ -941,11 +941,12 @@
             <div class="row">
               <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
-
+                <router-view/>
                 <!-- PAGE CONTENT ENDS -->
               </div><!-- /.col -->
             </div><!-- /.row -->
-          </div><!-- /.page-content -->
+          </div>
+          <!-- /.page-content -->
         </div>
       </div><!-- /.main-content -->
 
@@ -984,7 +985,7 @@
 <script>
 
 export default {
-  // eslint-disable-next-line
+
   name: 'login',
   mounted:function () {
     $('body').removeClass('login-layout light-login');
