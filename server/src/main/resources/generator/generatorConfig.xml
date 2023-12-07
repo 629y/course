@@ -47,6 +47,7 @@
         XMLMAPPER (生成的SQL全部在XML中)
         推荐使用: XMLMAPPER，将Java代码与SQL代码分离-->
 
-        <table tableName="test" domainObjectName="Test"/>
+<!--        <table tableName="test" domainObjectName="Test"/>-->
+        <table tableName="chapter" domainObjectName="Chapter"/>
     </context>
 </generatorConfiguration>
