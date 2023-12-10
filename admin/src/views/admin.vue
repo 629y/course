@@ -484,10 +484,28 @@ export default {
 
   name: 'login',
   mounted: function () {
+    // js中有this 关键字，代表当前执行方法的对象。养成习惯，在方法开头，声明本地变量_this 代替this。后面会介绍直接用this的坑。
+    let _this = this;
     $('body').removeClass('login-layout light-login');
     $('body').attr('class', 'no-skin');
     // console.log("admin");
+    // sidebar 激活样式方法二
+    _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
   },
+  // 此时如果从login页面点击登录跳到welcome页面，welcome并不会有激活样式。这里的watch，只在admin下面的子组件互相跳转时有效
+  watch: {
+    $route: {
+      handler:function(val, oldVal){
+        // sidebar激活样式方法二
+        console.log("---->页面跳转：", val, oldVal);
+        let _this = this;
+        _this.$nextTick(function(){  //页面加载完成后执行
+          _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+        })
+      }
+    }
+  },
+
   methods: {
     login() {
       this.$router.push("/admin")
