@@ -361,11 +361,11 @@
         </div><!-- /.sidebar-shortcuts -->
 
         <ul class="nav nav-list">
-          <li class="">
-            <a href="index.html">
+          <li class="" id="welcome-sidebar">
+            <router-link to="/admin/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
               <span class="menu-text"> 欢迎 </span>
-            </a>
+            </router-link>
 
             <b class="arrow"></b>
           </li>
@@ -411,11 +411,11 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-              <li class="">
-                <a href="tables.html">
+              <li class="active" id="business-chapter-sidebar">
+                <router-link to="/admin/business/chapter">
                   <i class="menu-icon fa fa-caret-right"></i>
                   大章管理
-                </a>
+                </router-link>
                 <b class="arrow"></b>
               </li>
 
@@ -491,7 +491,28 @@ export default {
   methods: {
     login() {
       this.$router.push("/admin")
+    },
+      /**
+       * 菜单激活样式，id 是当前点击的菜单的id
+       * @param id
+       */
+      //用到了id,所以需要给菜单增加id属性
+    activeSidebar:function (id) {
+        //针对二级菜单
+        //兄弟菜单去掉active 样式，自身增加active样式
+        $("#" + id).siblings().removeClass("active");
+        $("#" + id).siblings().find("li").removeClass("active");
+        $("#" + id).addClass("active");
+
+        //针对一级菜单
+        //如果有父菜单，父菜单的兄弟菜单去掉open active，父菜单增加open active
+        let parentLi = $("#" + id).parents("li");
+        if (parentLi){
+          parentLi.siblings().removeClass("open active");
+          parentLi.addClass("open active");
+        }
     }
+
   }
 }
 </script>
