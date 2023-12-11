@@ -6,7 +6,7 @@
         刷新
       </button>
     </p>
-    <pagination ref="pagination" v-bind:list="list"></pagination>
+    <pagination ref="pagination" v-bind:list="list" v-bind:item-count="8"></pagination>
 <!--  v-bind:list="list",前面的list,是分页组件暴露出来的一个回调方法，后面的list，是chapter组件的list方法  -->
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
@@ -99,6 +99,7 @@ export default {
   methods:{
     list(page) {
       let _this = this;
+      _this.$refs.pagination.size = 5;
       // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list",{
         page:page,

@@ -45,6 +45,7 @@
 <script>
 export default {
   name: 'pagination',
+  //props，定义父组件向子组件传递的参数，可以是一个函数或数据。本组件中暴露了两个参数list 和 itemCount 给外部。
   props: {
     list: {
       type: Function,
