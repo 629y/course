@@ -33,3 +33,4 @@ build/
 .vscode/
 /log/imooc/course/eureka/error.log
 /log/imooc/course/eureka/trace.log
+/log/
