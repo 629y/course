@@ -88,9 +88,12 @@ export default {
     list() {
       let _this = this;
       // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
-      _this.$ajax.get("http://127.0.0.1:9000/business/admin/chapter/list").then((response) => {
+      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list",{
+        page:1,
+        size:1
+      }).then((response) => {
         console.log("查询大章列表结果", response);
-        _this.chapters = response.data;
+        _this.chapters = response.data.list;
       })
     }
   }
