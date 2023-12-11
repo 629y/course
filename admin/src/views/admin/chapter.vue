@@ -976,10 +976,19 @@
 export default {
   name: "chapter",
   mounted:function () {
+    let _this = this;
+    _this.list();
     // sidebar 激活样式方法一
     // this.$parent.activeSidebar("business-chapter-sidebar");
   },
   methods:{
+    list() {
+      let _this = this;
+      // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
+      _this.$ajax.get("http://127.0.0.1:9002/business/admin/chapter/list").then((response) => {
+        console.log("查询大章列表结果", response);
+      })
+    }
   }
 }
 </script>
