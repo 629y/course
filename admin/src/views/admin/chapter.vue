@@ -1,11 +1,13 @@
 <template>
   <div>
     <p>
-      <button v-on:click="list()" class="btn btn-white btn-default btn-round">
+      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-refresh"></i>
         刷新
       </button>
     </p>
+    <pagination ref="pagination" v-bind:list="list"></pagination>
+<!--  v-bind:list="list",前面的list,是分页组件暴露出来的一个回调方法，后面的list，是chapter组件的list方法  -->
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
@@ -78,8 +80,11 @@
   </div>
 </template>
 <script>
+import Pagination from "@/components/pagination.vue";
+
 export default {
   name: "chapter",
+  components: {Pagination},
   data: function () {
     return {
       chapters: []
@@ -87,20 +92,21 @@ export default {
   },
   mounted:function () {
     let _this = this;
-    _this.list();
+    _this.list(1);
     // sidebar 激活样式方法一
     // this.$parent.activeSidebar("business-chapter-sidebar");
   },
   methods:{
-    list() {
+    list(page) {
       let _this = this;
       // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list",{
-        page:1,
-        size:1
+        page:page,
+        size:_this.$refs.pagination.size,
       }).then((response) => {
         console.log("查询大章列表结果", response);
         _this.chapters = response.data.list;
+        _this.$refs.pagination.render(page,response.data.total);
       })
     }
   }
