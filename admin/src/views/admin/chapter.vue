@@ -83,7 +83,7 @@
       </tr>
       </tbody>
     </table>
-    <div class="modal fade" tabindex="-1" role="dialog">
+    <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -137,8 +137,8 @@ export default {
   methods:{
     add(){
       let _this = this;
-      $(".modal").modal("show");//打开
-      //$(".modal").modal("hide");//关闭
+      $("#form-modal").modal("show");//打开
+      //$("#form-modal").modal("hide");//关闭
     },
     list(page) {
       let _this = this;
@@ -149,8 +149,10 @@ export default {
         size:_this.$refs.pagination.size,
       }).then((response) => {
         console.log("查询大章列表结果", response);
-        _this.chapters = response.data.list;
-        _this.$refs.pagination.render(page,response.data.total);
+        let resp = response.data;
+        _this.chapters = resp.content.list;
+        //response.data 就相当于responseDto
+        _this.$refs.pagination.render(page,resp.content.total);
       })
     },
     save(page) {
@@ -158,6 +160,11 @@ export default {
       // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/save",_this.chapter).then((response) => {
         console.log("保存大章列表结果", response);
+        let resp = response.data;
+        if (resp.success){
+          $("#form-modal").modal("hide");
+          _this.list(1);
+        }
       })
     }
   }
