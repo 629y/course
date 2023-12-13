@@ -18,17 +18,24 @@ public class ChapterController {
     public static final String BUSINESS_NAME = "大章";
     @Resource
     private ChapterService chapterService;
+
+    /**
+     * 列表查询
+     */
     @PostMapping("/list")
     public ResponseDto list(@RequestBody PageDto pageDto){
-        LOG.info("pageDto:{}",pageDto);
+        //LOG.info("pageDto:{}",pageDto);
         ResponseDto responseDto = new ResponseDto();
         chapterService.list(pageDto);
         responseDto.setContent(pageDto);
         return responseDto;
     }
+    /**
+     * 保存，id有值时更新，无值时新增
+     */
     @PostMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto){
-        LOG.info("chapterDto:{}",chapterDto);
+        //LOG.info("chapterDto:{}",chapterDto);
 
         //保存校验
         ValidatorUtil.require(chapterDto.getName(), "名称");
@@ -40,9 +47,12 @@ public class ChapterController {
         responseDto.setContent(chapterDto);
         return responseDto;
     }
+    /**
+     * 删除
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseDto delete(@PathVariable String id){
-        LOG.info("id:{}",id);
+        //LOG.info("id:{}",id);
         ResponseDto responseDto = new ResponseDto();
         chapterService.delete(id);
         return responseDto;
