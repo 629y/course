@@ -139,14 +139,31 @@ export default {
     },
     del(id) {
       let _this = this;
-      //restful 是一种请求风格。简单的理解：通过看url 就能知道这个请求是要对什么资源做什么操作
-      _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/delete/" + id).then((response) => {
-        console.log("删除大章列表结果", response);
-        let resp = response.data;
-        if (resp.success){
-          _this.list(1);
+      Swal.fire({
+        title: "确认删除?",
+        text: "删除后不可恢复，确认删除？",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "确认!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //restful 是一种请求风格。简单的理解：通过看url 就能知道这个请求是要对什么资源做什么操作
+          _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/delete/" + id).then((response) => {
+            console.log("删除大章列表结果", response);
+            let resp = response.data;
+            if (resp.success){
+              _this.list(1);
+              Swal.fire({
+                title: "删除成功!",
+                text: "删除成功！",
+                icon: "success"
+              });
+            }
+          })
         }
-      })
+      });
     }
   }
 }
