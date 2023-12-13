@@ -129,6 +129,14 @@ export default {
     },
     save(page) {
       let _this = this;
+
+      // 保存校验
+      if (!Validator.require(_this.chapter.name, "名称")
+          || !Validator.require(_this.chapter.courseId, "课程ID")
+          || !Validator.length(_this.chapter.courseId, "课程ID", 1, 8)) {
+        return;
+      }
+
       Loading.show();
       // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/save",_this.chapter).then((response) => {
