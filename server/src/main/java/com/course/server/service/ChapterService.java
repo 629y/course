@@ -59,4 +59,7 @@ public class ChapterService {
     private void update(Chapter chapter) {
         chapterMapper.updateByPrimaryKey(chapter);
     }
+    public void delete(String id) {
+        chapterMapper.deleteByPrimaryKey(id);
+    }
 }

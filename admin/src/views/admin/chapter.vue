@@ -36,7 +36,8 @@
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
 
-            <button class="btn btn-xs btn-danger">
+            <button v-on:click="del(chapter.id)" class="btn btn-xs btn-danger">
+<!--              delete 是js 的关键字，vue 方法里不能使用js 关键字-->
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
           </div>
@@ -132,6 +133,17 @@ export default {
         let resp = response.data;
         if (resp.success){
           $("#form-modal").modal("hide");
+          _this.list(1);
+        }
+      })
+    },
+    del(id) {
+      let _this = this;
+      //restful 是一种请求风格。简单的理解：通过看url 就能知道这个请求是要对什么资源做什么操作
+      _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/delete/" + id).then((response) => {
+        console.log("删除大章列表结果", response);
+        let resp = response.data;
+        if (resp.success){
           _this.list(1);
         }
       })
