@@ -30,54 +30,15 @@
         <td>{{ chapter.courseId }}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-success">
-              <i class="ace-icon fa fa-check bigger-120"></i>
-            </button>
-
-            <button class="btn btn-xs btn-info">
+            <button v-on:click="edit(chapter)" class="btn btn-xs btn-info">
+<!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据chapter，赋给vue变量_this.chapter
+                  vue变量_this.chapter会通过v-model属性和form表单做数据绑定-->
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
 
             <button class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
-
-            <button class="btn btn-xs btn-warning">
-              <i class="ace-icon fa fa-flag bigger-120"></i>
-            </button>
-          </div>
-          <div class="hidden-md hidden-lg">
-            <div class="inline pos-rel">
-              <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-              </button>
-
-              <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                <li>
-                  <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                  <span class="blue">
-                                    <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                  </span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                  <span class="green">
-                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                  </span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                  <span class="red">
-                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                  </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
         </td>
       </tr>
@@ -137,8 +98,16 @@ export default {
   methods:{
     add(){
       let _this = this;
+      // 发现问题：对文本框编辑后，点新增弹出文本框，会带出上一次编辑过的值。
+      _this.chapter = {};
       $("#form-modal").modal("show");//打开
       //$("#form-modal").modal("hide");//关闭
+    },
+    edit(chapter){
+      let _this = this;
+      // 数据显示：将表格行数据显示到表单。反过来，数据修改：修改表单影响表格行数据。
+      _this.chapter = $.extend({},chapter);
+      $("#form-modal").modal("show");//打开
     },
     list(page) {
       let _this = this;
