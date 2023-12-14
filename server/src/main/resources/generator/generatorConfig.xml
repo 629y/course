@@ -30,17 +30,16 @@
         </jdbcConnection>
 
         <!-- domain类的位置 -->
-        <javaModelGenerator targetProject="src\main\java"
-                            targetPackage="com.course.server.domain"/>
+<!--        <javaModelGenerator targetProject="src\main\java" targetPackage="com.course.server.domain"/>-->
+        <javaModelGenerator targetProject="src/main/java" targetPackage="com.course.server.domain"/>
 
         <!-- mapper xml的位置 -->
-        <sqlMapGenerator targetProject="src\main\resources"
-                         targetPackage="mapper"/>
+<!--        <sqlMapGenerator targetProject="src\main\resources" targetPackage="mapper"/>-->
+        <sqlMapGenerator targetProject="src/main/resources" targetPackage="mapper"/>
 
         <!-- mapper类的位置 -->
-        <javaClientGenerator targetProject="src\main\java"
-                             targetPackage="com.course.server.mapper"
-                             type="XMLMAPPER" />
+<!--        <javaClientGenerator targetProject="src\main\java" targetPackage="com.course.server.mapper" type="XMLMAPPER" />-->
+        <javaClientGenerator targetProject="src/main/java" targetPackage="com.course.server.mapper" type="XMLMAPPER" />
         <!-- type="XMLMAPPER" 有三种生成方式:
         ANNOTATEDMAPPER(生成的SQL全部在Java中)，
         MIXEDMAPPER (SQL部分在Java中，部分在XML中)，
@@ -48,6 +47,8 @@
         推荐使用: XMLMAPPER，将Java代码与SQL代码分离-->
 
 <!--        <table tableName="test" domainObjectName="Test"/>-->
-        <table tableName="chapter" domainObjectName="Chapter"/>
+<!--        <table tableName="chapter" domainObjectName="Chapter"/>-->
+<!--        mybatis generator 支持同时生成多个table，但我们最好每次只生成一张表，其它表都注释掉-->
+        <table tableName="section" domainObjectName="Section"/>
     </context>
 </generatorConfiguration>
