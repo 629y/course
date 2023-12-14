@@ -28,13 +28,6 @@ public class SectionService {
         List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
         PageInfo<Section> pageInfo = new PageInfo<>(sectionList);
         pageDto.setTotal(pageInfo.getTotal());
-//        List<SectionDto> sectionDtoList = new ArrayList<SectionDto>();
-//        for (int i = 0, l = sectionList.size(); i < l; i++) {
-//            Section section = sectionList.get(i);
-//            SectionDto sectionDto = new SectionDto();
-//            BeanUtils.copyProperties(section, sectionDto);
-//            sectionDtoList.add(sectionDto);
-//        }
         List<SectionDto> sectionDtoList = CopyUtil.copyList(sectionList, SectionDto.class);
         pageDto.setList(sectionDtoList);
     }
