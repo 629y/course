@@ -7,7 +7,8 @@ Confirm = {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "确认!"
+      confirmButtonText: "确认!",
+      cancelButtonText: "取消!"
     }).then((result) => {
       if (result.value){
         if (callback) {
