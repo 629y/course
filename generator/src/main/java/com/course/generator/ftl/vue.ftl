@@ -138,10 +138,23 @@
         let _this = this;
 
         // 保存校验
+        //1! = 1 的设计，类似于mybatis 的动态sql 设计，在拼动态where 条件时，会在前面加 1==1
+        if(1 !=1
+        <#list fieldList as field>
+          <#if !field.nullAble>
+          || !Validator.require(_this.${domain}.${field.nameHump},"${field.nameCn}")
+          </#if>
+          <#if (field.length > 0)>
+          || !Validator.length(_this.${domain}.${field.nameHump},"${field.nameCn}",1,${field.length})
+          </#if>
+        </#list>
+        ){
+          return;
+        }
 
-        Loading.show();
-        // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
-        _this.$ajax.post(process.env.VUE_APP_SERVER  + "/${module}/admin/${domain}/save",_this.${domain}).then((response) => {
+          Loading.show();
+          // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
+          _this.$ajax.post(process.env.VUE_APP_SERVER  + "/${module}/admin/${domain}/save",_this.${domain}).then((response) => {
           Loading.hide();
           let resp = response.data;
           if (resp.success){

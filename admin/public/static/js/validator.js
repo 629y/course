@@ -9,6 +9,7 @@ Validator = {
   },
 
   length: function (value, text, min, max) {
+    //为了不改模板，所以增加这个判断
     if (Tool.isEmpty(value)) {
       return true;
     }
