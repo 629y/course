@@ -124,7 +124,7 @@ export default {
       Loading.show();
       _this.$refs.pagination.size = 5;
       // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
-      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list",{
+      _this.$ajax.post(process.env.VUE_APP_SERVER +"/business/admin/chapter/list",{
         page:page,
         size:_this.$refs.pagination.size,
       }).then((response) => {
@@ -150,7 +150,7 @@ export default {
 
       Loading.show();
       // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
-      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/save",_this.chapter).then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER  + "/business/admin/chapter/save",_this.chapter).then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success){
@@ -170,7 +170,7 @@ export default {
       Confirm.show("删除大章后不可恢复，确认删除？",function (){
         Loading.show();
         //restful 是一种请求风格。简单的理解：通过看url 就能知道这个请求是要对什么资源做什么操作
-        _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/delete/" + id).then((response) => {
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + "/business/admin/chapter/delete/" + id).then((response) => {
           Loading.hide();
           let resp = response.data;
           if (resp.success){

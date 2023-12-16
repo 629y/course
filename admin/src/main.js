@@ -9,7 +9,7 @@ Vue.prototype.$ajax = axios;
  */
 axios.interceptors.request.use(function (config) {
   console.log("请求：", config);
-  let token = Tool.getLoginUser().token;
+ // let token = Tool.getLoginUser().token;
   return config;
 }, error => {});
 axios.interceptors.response.use(function (response) {
@@ -20,3 +20,5 @@ new Vue({
   router,
   render: h => h(App),
 }).$mount('#app');
+
+console.log("环境：",process.env.NODE_ENV);
