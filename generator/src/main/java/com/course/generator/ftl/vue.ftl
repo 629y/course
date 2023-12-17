@@ -83,7 +83,7 @@
   import Pagination from "@/components/pagination.vue";
 
   export default {
-    name: "${domain}",
+    name: "${module}-${domain}",
     components: {Pagination},
     data: function () {
       return {
