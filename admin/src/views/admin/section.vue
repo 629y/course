@@ -130,7 +130,7 @@
         section:{},
         // section变量用于绑定form 表单的数据
         sections: [],
-        CHARGE:[{key:"C",value:"收费"},{key:"F",value:"免费"}]
+        CHARGE:CHARGE,
       }
     },
     mounted:function () {
