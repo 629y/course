@@ -19,7 +19,7 @@ public class Section {
 
     private Integer sort;
 
-    private Date createdAt;//之前在这个地方写错了
+    private Date createdAt;
 
     private Date updatedAt;
 
@@ -91,8 +91,8 @@ public class Section {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createAt) {
-        this.createdAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Date getUpdatedAt() {
