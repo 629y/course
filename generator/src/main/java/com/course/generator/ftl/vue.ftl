@@ -17,8 +17,10 @@
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
-        <#list fieldList as field>
+<#list fieldList as field>
+          <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
         <th>${field.nameCn}</th>
+          </#if>
       </#list>
         <th>操作</th>
       </tr>
@@ -26,7 +28,9 @@
       <tbody>
       <tr v-for="${domain} in ${domain}s">
         <#list fieldList as field>
+          <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
         <td>{{ ${domain}.${field.nameHump}}}</td>
+          </#if>
       </#list>
       <td>
         <div class="hidden-sm hidden-xs btn-group">
@@ -55,12 +59,14 @@
           <div class="modal-body">
             <form class="form-horizontal">
               <#list fieldList as field>
+                <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt">
               <div class="form-group">
                 <label class="col-sm-2 control-label">${field.nameCn}</label>
                 <div class="col-sm-10">
                   <input v-model="${domain}.${field.nameHump}" class="form-control">
                 </div>
               </div>
+                </#if>
             </#list>
             </form>
           </div>
@@ -141,11 +147,13 @@
         //1! = 1 的设计，类似于mybatis 的动态sql 设计，在拼动态where 条件时，会在前面加 1==1
         if(1 !=1
         <#list fieldList as field>
-          <#if !field.nullAble>
+          <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt" && field.nameHump!="sort">
+            <#if !field.nullAble>
           || !Validator.require(_this.${domain}.${field.nameHump},"${field.nameCn}")
-          </#if>
-          <#if (field.length > 0)>
+            </#if>
+            <#if (field.length > 0)>
           || !Validator.length(_this.${domain}.${field.nameHump},"${field.nameCn}",1,${field.length})
+            </#if>
           </#if>
         </#list>
         ){
