@@ -1,5 +1,7 @@
 package com.course.generator.util;
 
+import com.course.generator.enums.EnumGenerator;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +88,18 @@ public class DbUtil {
                 }else {
                     field.setLength(0);
                     //约定：当length>0时，表示需要对length做校验，当length=0时，表示不需要校验
+                }
+                if (comment.contains("枚举")){
+                    field.setEnums(true);
+                    //以课程等级为例：从注释中的“枚举[CourseLevelEnum]”,得到COURSE_LEVEL
+                    int start = comment.indexOf("[");
+                    int end = comment.indexOf("]");
+                    String enumsName = comment.substring(start + 1, end);
+                    String enumsConst = EnumGenerator.toUnderline(enumsName);
+                    //这里也可以考虑将toUnderLine 方法提取到工具类中
+                    field.setEnumsConst(enumsConst);
+                }else {
+                    field.setEnums(false);
                 }
                 fieldList.add(field);
             }
