@@ -21,13 +21,13 @@
           <img v-show="course.image" class="media-object" v-bind:src="course.image" />
           <div class="caption">
             <div class="clearfix">
-              <span class="pull-right label label-grey info-label">
+              <span class="pull-right label label-primary info-label">
                 {{COURSE_LEVEL | optionKV(course.level)}}
               </span>
-              <span class="pull-right label label-grey info-label">
+              <span class="pull-right label label-primary info-label">
                 {{COURSE_CHARGE | optionKV(course.charge)}}
               </span>
-              <span class="pull-right label label-grey info-label">
+              <span class="pull-right label label-primary info-label">
                 {{COURSE_STATUS | optionKV(course.status)}}
               </span>
             </div>
@@ -35,7 +35,15 @@
             <h3 class="search-title">
               <a href="#" class="blue">{{course.name}}</a>
             </h3>
+            <p>
+              <span class="blue bolder bigger-150">{{course.price}}&nbsp;<i class="fa fa-rmb"></i></span>
+            </p>
             <p>{{course.summary}}</p>
+            <p>
+              <span class="badge badge-info">{{course.id}}</span>
+              <span class="badge badge-info">排序: {{course.sort}}</span>
+              <span class="badge badge-info">时长: {{course.time}}</span>
+            </p>
             <p>
               <button v-on:click="edit(course)" class="btn btn-xs btn-info">
               <!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据course，赋给vue变量_this.course
@@ -185,7 +193,7 @@
     </div><!-- /.modal -->
   </div>
 </template>
-<script>
+<script >
   import Pagination from "@/components/pagination.vue";
 
   export default {
@@ -298,3 +306,9 @@
     }
   }
 </script>
+<!--scoped:style下的样式只应用于当前组件，防止互相污染-->
+<style scoped>
+ .caption h3{
+   font-size: 20px;
+ }
+</style>
