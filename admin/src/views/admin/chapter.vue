@@ -1,12 +1,18 @@
 <template>
   <div>
+    <h3>{{course.name}}</h3>
     <p>
+      <router-link to="/business/course" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-arrow-left"></i>
+        返回课程
+      </router-link>
+      &nbsp;
       <button v-on:click="add()" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa-edit"></i>
 <!--        fa-edit 参考font awesome 图标-->
         新增
       </button>
-      &nbsp;
+      &nbsp;&nbsp;
       <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-refresh"></i>
         刷新
@@ -87,11 +93,19 @@ export default {
     return {
       chapter:{},
       // chapter变量用于绑定form 表单的数据
-      chapters: []
+      chapters: [],
+      course:{},
     }
   },
   mounted:function () {
     let _this = this;
+    _this.$refs.pagination.size = 5;
+    let course = SessionStorage.get("course") || {};
+    //null.name会报错，{}.name不会报错
+    if (Tool.isEmpty(course)){
+      _this.$router.push("/welcome");
+    }
+    _this.course = course;
     _this.list(1);
     // sidebar 激活样式方法一
     // this.$parent.activeSidebar("business-chapter-sidebar");

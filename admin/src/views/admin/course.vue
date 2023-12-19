@@ -45,15 +45,18 @@
               <span class="badge badge-info">时长: {{course.time}}</span>
             </p>
             <p>
-              <button v-on:click="edit(course)" class="btn btn-xs btn-info">
-              <!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据course，赋给vue变量_this.course
-                                vue变量_this.course会通过v-model属性和form表单做数据绑定-->
-              <i class="ace-icon fa fa-pencil bigger-120"></i>
+              <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
+                大章
               </button>
+              <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
+                编辑
+              <!--1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据course，赋给vue变量_this.course
+                  vue变量_this.course会通过v-model属性和form表单做数据绑定-->
+              </button>&nbsp;
 
-              <button v-on:click="del(course.id)" class="btn btn-xs btn-danger">
-                <!--              delete 是js 的关键字，vue 方法里不能使用js 关键字-->
-                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+              <button v-on:click="del(course.id)" class="btn btn-white btn-xs btn-warning btn-round">
+                删除
+                <!--delete 是js 的关键字，vue 方法里不能使用js 关键字-->
               </button>
             </p>
           </div>
@@ -302,7 +305,17 @@
             }
           })
         })
-      }
+      },
+      /**
+       * 点击【大章】
+       */
+      toChapter(course){
+        let _this = this;
+        //组件(页面)间传输数据可以用h5原生的localStorage,sessionStorage;也可以用js全局变量;也可以用vuex stofe，
+        // 但是后两者在页面刷新时会丢失数据，所以推荐使用h5原生的。
+        SessionStorage.set("course",course);
+        _this.$router.push("/business/chapter");
+      },
     }
   }
 </script>
