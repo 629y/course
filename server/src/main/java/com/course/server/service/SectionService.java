@@ -23,6 +23,8 @@ import java.util.Date;
 public class SectionService {
     @Resource
     private SectionMapper sectionMapper;
+    @Resource
+    private CourseService courseService;
     /**
      * 列表查询
      */
@@ -54,6 +56,8 @@ public class SectionService {
         }else {
             this.update(section);
         }
+        //保存小节时，不管是新增还是修改，都更新课程总时长
+        courseService.updateTime(sectionDto.getCourseId());
     }
     /**
      * 新增
