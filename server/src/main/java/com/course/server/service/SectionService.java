@@ -13,12 +13,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Date;
-
 @Service
 public class SectionService {
     @Resource
@@ -49,6 +50,9 @@ public class SectionService {
     /**
      * 保存，id有值时更新，无值时新增
      */
+    //rollbackFor = Exception.class加上不管是Exception还是RuntimeException，都会回滚
+    @Transactional(rollbackFor = Exception.class)
+    //@Transactional
     public void save(SectionDto sectionDto) {
         Section section = CopyUtil.copy(sectionDto, Section.class);
         if (StringUtil.isEmpty(sectionDto.getId())){
@@ -56,6 +60,11 @@ public class SectionService {
         }else {
             this.update(section);
         }
+//        if (true){
+//            //throw new Exception("事务测试");
+//            throw new RuntimeException("事务测试RuntimeException");
+//            //自定义异常一般可以选择继承RuntimeException
+//        }
         //保存小节时，不管是新增还是修改，都更新课程总时长
         courseService.updateTime(sectionDto.getCourseId());
     }
