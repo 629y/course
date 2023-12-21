@@ -57,7 +57,11 @@ public class ${Domain}Service {
      */
     private void insert(${Domain} ${domain}) {
         //目前使用BeanUtil.copyProperties，需要多行代码，后续会对其做封装优化。
+        <#list typeSet as type>
+            <#if type=='Date'>
         Date now =new Date();
+            </#if>
+        </#list>
         <#list fieldList as field>
             <#if field.nameHump=='createdAt'>
         ${domain}.setCreatedAt(now);
