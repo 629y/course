@@ -1,52 +1,93 @@
 <template>
   <div>
-    <p>
-      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa-edit"></i>
-        <!--        fa-edit 参考font awesome 图标-->
-        新增
-      </button>
-      &nbsp;
-      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-refresh"></i>
-        刷新
-      </button>
-    </p>
-    <pagination ref="pagination" v-bind:list="list" v-bind:item-count="8"></pagination>
-    <!--  v-bind:list="list",前面的list,是分页组件暴露出来的一个回调方法，后面的list，是category组件的list方法  -->
-    <table id="simple-table" class="table  table-bordered table-hover">
-      <thead>
-      <tr>
-        <th>id</th>
-        <th>父id</th>
-        <th>名称</th>
-        <th>顺序</th>
-        <th>操作</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="category in categorys">
-        <td>{{category.id}}</td>
-        <td>{{category.parent}}</td>
-        <td>{{category.name}}</td>
-        <td>{{category.sort}}</td>
-      <td>
-        <div class="hidden-sm hidden-xs btn-group">
-          <button v-on:click="edit(category)" class="btn btn-xs btn-info">
-            <!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据category，赋给vue变量_this.category
-                              vue变量_this.category会通过v-model属性和form表单做数据绑定-->
-            <i class="ace-icon fa fa-pencil bigger-120"></i>
+    <div class="row">
+      <div class="col-md-6">
+        <p>
+          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+            <i class="ace-icon fa-edit"></i>
+            <!--        fa-edit 参考font awesome 图标-->
+            新增
           </button>
+          &nbsp;
+          <button v-on:click="all()" class="btn btn-white btn-default btn-round">
+            <i class="ace-icon fa fa-refresh"></i>
+            刷新
+          </button>
+        </p>
+        <table id="level1-table" class="table  table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>名称</th>
+            <th>顺序</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="category in level1" v-on:click="onClickLevel1(category)" v-bind:class="{'active': category.id === active.id}">
+<!--            动态class:使用v-bind:class=json表达式，key就是样式，value是boolean,为true时，表示key的样式生效。可以和原生的class 并存-->
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.sort}}</td>
+            <td>
+              <div class="hidden-sm hidden-xs btn-group">
+                <button v-on:click="edit(category)" class="btn btn-xs btn-info">
+                  <!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据category，赋给vue变量_this.category
+                                    vue变量_this.category会通过v-model属性和form表单做数据绑定-->
+                  <i class="ace-icon fa fa-pencil bigger-120"></i>
+                </button>
 
-          <button v-on:click="del(category.id)" class="btn btn-xs btn-danger">
-            <!--              delete 是js 的关键字，vue 方法里不能使用js 关键字-->
-            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                <button v-on:click="del(category.id)" class="btn btn-xs btn-danger">
+                  <!--              delete 是js 的关键字，vue 方法里不能使用js 关键字-->
+                  <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+            <i class="ace-icon fa-edit"></i>
+            <!--        fa-edit 参考font awesome 图标-->
+            新增
           </button>
-        </div>
-      </td>
-      </tr>
-      </tbody>
-    </table>
+        </p>
+        <table id="level2-table" class="table  table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>名称</th>
+            <th>顺序</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="category in level2">
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.sort}}</td>
+            <td>
+              <div class="hidden-sm hidden-xs btn-group">
+                <button v-on:click="edit(category)" class="btn btn-xs btn-info">
+                  <!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据category，赋给vue变量_this.category
+                                    vue变量_this.category会通过v-model属性和form表单做数据绑定-->
+                  <i class="ace-icon fa fa-pencil bigger-120"></i>
+                </button>
+
+                <button v-on:click="del(category.id)" class="btn btn-xs btn-danger">
+                  <!--              delete 是js 的关键字，vue 方法里不能使用js 关键字-->
+                  <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -96,11 +137,14 @@
         category:{},
         // category变量用于绑定form 表单的数据
         categorys: [],
+        level1:[],
+        level2:[],
+        active:{},
       }
     },
     mounted:function () {
       let _this = this;
-      _this.list(1);
+      _this.all();
       // sidebar 激活样式方法一
       // this.$parent.activeSidebar("business-category-sidebar");
     },
@@ -127,26 +171,37 @@
       /**
        * 列表查询
        */
-      list(page) {
+      all() {
         let _this = this;
         Loading.show();
-        _this.$refs.pagination.size = 5;
         // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
-        _this.$ajax.post(process.env.VUE_APP_SERVER +"/business/admin/category/list",{
-          page:page,
-          size:_this.$refs.pagination.size,
-        }).then((response) => {
+        _this.$ajax.post(process.env.VUE_APP_SERVER +"/business/admin/category/all").then((response) => {
           Loading.hide();
           let resp = response.data;
-          _this.categorys = resp.content.list;
-          //response.data 就相当于responseDto
-          _this.$refs.pagination.render(page,resp.content.total);
+          _this.categorys = resp.content;
+          //将所有记录格式化成树形结构
+          _this.level1 = [];
+          for (let i = 0; i < _this.categorys.length; i++) {
+            let c = _this.categorys[i];
+            if (c.parent === '00000000'){
+              _this.level1.push(c);
+              for (let j = 0; j < _this.categorys.length; j++) {
+                let child = _this.categorys[j];
+                if (child.parent === c.id){
+                  if(Tool.isEmpty(c.children)){
+                    c.children = [];
+                  }
+                  c.children.push(child);
+                }
+              }
+            }
+          }
         })
       },
       /**
        * 点击【保存】
        */
-      save(page) {
+      save() {
         let _this = this;
 
         // 保存校验
@@ -166,7 +221,7 @@
           let resp = response.data;
           if (resp.success){
             $("#form-modal").modal("hide");
-            _this.list(1);
+            _this.all();
             Toast.success("保存成功！");
           }else {
             Toast.warning(resp.message);
@@ -185,12 +240,22 @@
             Loading.hide();
             let resp = response.data;
             if (resp.success){
-              _this.list(1);
+              _this.all();
               Toast.success("删除成功！");
             }
           })
-        })
+        });
+      },
+      onClickLevel1(category){
+        let _this = this;
+        _this.active = category;
+        _this.level2 = category.children;
       }
     }
   }
 </script>
+<style scoped>
+  .active td{
+    background-color: #d6e9c6 !important;
+  }
+</style>
