@@ -173,6 +173,7 @@
         COURSE_CHARGE: COURSE_CHARGE,
         COURSE_STATUS: COURSE_STATUS,
         categorys: [],
+        tree:{},
       }
     },
     mounted:function () {
@@ -235,7 +236,14 @@
         ){
           return;
         }
-
+          let categorys = _this.tree.getCheckedNodes();
+          if (Tool.isEmpty(categorys)){
+            Toast.warning("请选择分类！");
+            return;
+          }
+          // console.log(categorys);
+          _this.course.categorys = categorys;
+          //把tree变成组件变量
           Loading.show();
           // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
           _this.$ajax.post(process.env.VUE_APP_SERVER  + "/business/admin/course/save",_this.course).then((response) => {
@@ -307,7 +315,7 @@
           }
         };
         let zNodes = _this.categorys;
-        $.fn.zTree.init($("#tree"),setting,zNodes);
+        _this.tree = $.fn.zTree.init($("#tree"),setting,zNodes);
       }
     }
   }
