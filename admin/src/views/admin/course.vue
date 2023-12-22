@@ -177,11 +177,9 @@
     },
     mounted:function () {
       let _this = this;
-      _this.$refs.Pagination.size = 5;
+      _this.$refs.pagination.size = 5;
       _this.allCategory();
       _this.list(1);
-      // sidebar 激活样式方法一
-      // this.$parent.activeSidebar("business-course-sidebar");
     },
     methods:{
       /**
