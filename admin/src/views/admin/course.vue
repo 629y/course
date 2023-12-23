@@ -47,7 +47,10 @@
             <p>
               <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
                 大章
-              </button>
+              </button>&nbsp;
+              <button v-on:click="editContent(course)" class="btn btn-white btn-xs btn-info btn-round">
+                内容
+              </button>&nbsp;
               <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
                 编辑
               <!--1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据course，赋给vue变量_this.course
@@ -156,6 +159,33 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <div id="course-content-modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">
+              &times;</span></button>
+            <h4 class="modal-title">内容编辑</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <div class="col-lg-12">
+                  <div id="content"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-white btn-default btn-round" data-dismiss="modal">
+              <i class="ace-icon fa fa-times"></i>
+              取消</button>
+            <button v-on:click="saveContent()" type="button" class="btn btn-white btn-info btn-round">
+              <i class="ace-icon fa fa-plus blue"></i>保存</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
   </div>
 </template>
 <script >
@@ -166,27 +196,27 @@
     components: {Pagination},
     data: function () {
       return {
-        course:{},
+        course: {},
         // course变量用于绑定form 表单的数据
         courses: [],
         COURSE_LEVEL: COURSE_LEVEL,
         COURSE_CHARGE: COURSE_CHARGE,
         COURSE_STATUS: COURSE_STATUS,
         categorys: [],
-        tree:{},
+        tree: {},
       }
     },
-    mounted:function () {
+    mounted: function () {
       let _this = this;
       _this.$refs.pagination.size = 5;
       _this.allCategory();
       _this.list(1);
     },
-    methods:{
+    methods: {
       /**
        * 点击【新增】
        */
-      add(){
+      add() {
         let _this = this;
         // 发现问题：对文本框编辑后，点新增弹出文本框，会带出上一次编辑过的值。
         _this.course = {};
@@ -197,10 +227,10 @@
       /**
        * 点击【编辑】
        */
-      edit(course){
+      edit(course) {
         let _this = this;
         // 数据显示：将表格行数据显示到表单。反过来，数据修改：修改表单影响表格行数据。
-        _this.course = $.extend({},course);
+        _this.course = $.extend({}, course);
         _this.listCategory(course.id);
         $("#form-modal").modal("show");//打开
       },
@@ -211,15 +241,15 @@
         let _this = this;
         Loading.show();
         // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
-        _this.$ajax.post(process.env.VUE_APP_SERVER +"/business/admin/course/list",{
-          page:page,
-          size:_this.$refs.pagination.size,
+        _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/course/list", {
+          page: page,
+          size: _this.$refs.pagination.size,
         }).then((response) => {
           Loading.hide();
           let resp = response.data;
           _this.courses = resp.content.list;
           //response.data 就相当于responseDto
-          _this.$refs.pagination.render(page,resp.content.total);
+          _this.$refs.pagination.render(page, resp.content.total);
         })
       },
       /**
@@ -230,32 +260,32 @@
 
         // 保存校验
         //1! = 1 的设计，类似于mybatis 的动态sql 设计，在拼动态where 条件时，会在前面加 1==1
-        if(1 !=1
-          || !Validator.require(_this.course.name,"名称")
-          || !Validator.length(_this.course.name,"名称",1,50)
-          || !Validator.length(_this.course.summary,"概述",1,2000)
-          || !Validator.length(_this.course.image,"封面",1,100)
-        ){
+        if (1 != 1
+            || !Validator.require(_this.course.name, "名称")
+            || !Validator.length(_this.course.name, "名称", 1, 50)
+            || !Validator.length(_this.course.summary, "概述", 1, 2000)
+            || !Validator.length(_this.course.image, "封面", 1, 100)
+        ) {
           return;
         }
-          let categorys = _this.tree.getCheckedNodes();
-          if (Tool.isEmpty(categorys)){
-            Toast.warning("请选择分类！");
-            return;
-          }
-          // console.log(categorys);
-          _this.course.categorys = categorys;
-          //把tree变成组件变量
-          Loading.show();
-          // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
-          _this.$ajax.post(process.env.VUE_APP_SERVER  + "/business/admin/course/save",_this.course).then((response) => {
+        let categorys = _this.tree.getCheckedNodes();
+        if (Tool.isEmpty(categorys)) {
+          Toast.warning("请选择分类！");
+          return;
+        }
+        // console.log(categorys);
+        _this.course.categorys = categorys;
+        //把tree变成组件变量
+        Loading.show();
+        // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
+        _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/course/save", _this.course).then((response) => {
           Loading.hide();
           let resp = response.data;
-          if (resp.success){
+          if (resp.success) {
             $("#form-modal").modal("hide");
             _this.list(1);
             Toast.success("保存成功！");
-          }else {
+          } else {
             Toast.warning(resp.message);
           }
         })
@@ -265,13 +295,13 @@
        */
       del(id) {
         let _this = this;
-        Confirm.show("删除课程表后不可恢复，确认删除？",function (){
+        Confirm.show("删除课程表后不可恢复，确认删除？", function () {
           Loading.show();
           //restful 是一种请求风格。简单的理解：通过看url 就能知道这个请求是要对什么资源做什么操作
           _this.$ajax.delete(process.env.VUE_APP_SERVER + "/business/admin/course/delete/" + id).then((response) => {
             Loading.hide();
             let resp = response.data;
-            if (resp.success){
+            if (resp.success) {
               _this.list(1);
               Toast.success("删除成功！");
             }
@@ -281,11 +311,11 @@
       /**
        * 点击【大章】
        */
-      toChapter(course){
+      toChapter(course) {
         let _this = this;
         //组件(页面)间传输数据可以用h5原生的localStorage,sessionStorage;也可以用js全局变量;也可以用vuex stofe，
         // 但是后两者在页面刷新时会丢失数据，所以推荐使用h5原生的。
-        SessionStorage.set("course",course);
+        SessionStorage.set("course", course);
         _this.$router.push("/business/chapter");
       },
       /**
@@ -294,21 +324,21 @@
       allCategory() {
         let _this = this;
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER +"/business/admin/category/all").then((response) => {
+        _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/category/all").then((response) => {
           Loading.hide();
           let resp = response.data;
           _this.categorys = resp.content;
           _this.initTree();
         })
       },
-      initTree(){
+      initTree() {
         let _this = this;
         let setting = {
-          check:{
-            enable:true
+          check: {
+            enable: true
           },
-          data:{
-            simpleData:{
+          data: {
+            simpleData: {
               idKey: "id",
               pIdKey: "parent",
               rootPId: "00000000",
@@ -317,7 +347,7 @@
           }
         };
         let zNodes = _this.categorys;
-        _this.tree = $.fn.zTree.init($("#tree"),setting,zNodes);
+        _this.tree = $.fn.zTree.init($("#tree"), setting, zNodes);
 
         //展开所有的节点
         // _this.tree.expandAll(true);
@@ -326,23 +356,71 @@
        * 查找课程下所有分类
        * @param courseId
        */
-      listCategory(courseId){
+      listCategory(courseId) {
         let _this = this;
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER+'/business/admin/course/list-category/'+courseId).then((res)=>{
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/' + courseId).then((res) => {
           Loading.hide();
-          console.log("查找课程下所有分类结果：",res);
+          console.log("查找课程下所有分类结果：", res);
           let response = res.data;
           let categorys = response.content;
 
           //勾选查询到的分类
           _this.tree.checkAllNodes(false);
           for (let i = 0; i < categorys.length; i++) {
-            let node = _this.tree.getNodeByParam("id",categorys[i].categoryId);
-            _this.tree.checkNode(node,true);
+            let node = _this.tree.getNodeByParam("id", categorys[i].categoryId);
+            _this.tree.checkNode(node, true);
           }
         })
       },
+      /**
+       * 打开内容编辑器
+       */
+      editContent(course) {
+        let _this = this;
+        let id = course.id;
+        _this.course = course;
+        $("#content").summernote({
+          focus: true,
+          height: 300
+        });
+        //先清空历史文本
+        $("#content").summernote('code', '');
+        Loading.show();
+        _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/admin/course/find-content/'+id).then((response) => {
+          Loading.hide();
+          let resp = response.data;
+          if (resp.success) {
+            //调用modal方法时，增加backdrop:'static',则点击空白位置，模态框不会自动关闭。
+            $("#course-content-modal").modal({backdrop: 'static', keyboard: false});
+            if (resp.content) {
+              $("#content").summernote('code', resp.content.content);
+            }
+          } else {
+            Toast.warning(resp.message);
+          }
+        });
+      },
+      /**
+       * 保存内容
+       */
+      saveContent() {
+        let _this = this;
+        let content = $("#content").summernote("code");
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save-content/',
+            {
+              id: _this.course.id,
+              content: content
+            }).then((response) => {
+          Loading.hide();
+          let resp = response.data;
+          if (resp.success) {
+            Toast.success("内容保存成功");
+          } else {
+            Toast.warning(resp.message);
+          }
+        });
+      }
     }
   }
 </script>
