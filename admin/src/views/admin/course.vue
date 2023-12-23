@@ -171,6 +171,11 @@
             <form class="form-horizontal">
               <div class="form-group">
                 <div class="col-lg-12">
+                  {{saveContentLabel}}
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-12">
                   <div id="content"></div>
                 </div>
               </div>
@@ -204,6 +209,7 @@
         COURSE_STATUS: COURSE_STATUS,
         categorys: [],
         tree: {},
+        saveContentLabel:"",
       }
     },
     mounted: function () {
@@ -359,7 +365,8 @@
       listCategory(courseId) {
         let _this = this;
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/' + courseId).then((res) => {
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/'
+            + courseId).then((res) => {
           Loading.hide();
           console.log("查找课程下所有分类结果：", res);
           let response = res.data;
@@ -386,8 +393,10 @@
         });
         //先清空历史文本
         $("#content").summernote('code', '');
+        _this.saveContentLabel = "";
         Loading.show();
-        _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/admin/course/find-content/'+id).then((response) => {
+        _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/admin/course/find-content/'
+            +id).then((response) => {
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
@@ -396,6 +405,15 @@
             if (resp.content) {
               $("#content").summernote('code', resp.content.content);
             }
+            //定时自动保存
+            //扩展：setInterval,重复的定时任务;setTimeout,只执行一次的定时任务
+            let saveContentInterval = setInterval(function (){
+            _this.saveContent();
+            },5000);
+            //关闭内容框时，清空自动保存任务
+            $('#course-content-modal').on('hidden.bs.modal',function (e){
+            clearInterval(saveContentInterval);
+            })
           } else {
             Toast.warning(resp.message);
           }
@@ -415,7 +433,10 @@
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
-            Toast.success("内容保存成功");
+            // Toast.success("内容保存成功");
+            // let now = Tool.dateFormat("yyyy-MM-dd hh:mm:ss");
+            let now = Tool.dateFormat("mm:ss");
+            _this.saveContentLabel = "最后保存时间："+now;
           } else {
             Toast.warning(resp.message);
           }
