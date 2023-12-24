@@ -2,8 +2,7 @@
   <div>
     <p>
       <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa-edit"></i>
-        <!--        fa-edit 参考font awesome 图标-->
+        <i class="ace-icon fa fa-edit"></i>
         新增
       </button>
       &nbsp;
@@ -35,6 +34,15 @@
             <h3 class="search-title">
               <a href="#" class="blue">{{course.name}}</a>
             </h3>
+            <div v-for="teacher in teachers.filter(t=>{return t.id===course.teacherId})" class="profile-activity clearfix">
+              <div>
+                <img v-show="!teacher.image" class="pull-left" src="/ace/assets/images/avatars/avatar5.png">
+                <img v-show="teacher.image" class="pull-left" v-bind:src="teacher.image">
+                <a class="user" href="#"> {{teacher.name}} </a>
+                <br>
+                {{teacher.position}}
+              </div>
+            </div>
             <p>
               <span class="blue bolder bigger-150">{{course.price}}&nbsp;<i class="fa fa-rmb"></i></span>
             </p>
@@ -42,7 +50,7 @@
             <p>
               <span class="badge badge-info">{{course.id}}</span>
               <span class="badge badge-info">排序: {{course.sort}}</span>
-              <span class="badge badge-info">时长: {{course.time | formatSecond}}</span>
+              <span class="badge badge-info"> {{course.time | formatSecond}}</span>
             </p>
             <p>
               <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
@@ -549,8 +557,14 @@
   }
 </script>
 <!--scoped:style下的样式只应用于当前组件，防止互相污染-->
-<style scoped>
+<style>
  .caption h3{
    font-size: 20px;
+ }
+// 字体大小自适应，根据屏幕的分辨率显示不同大小的字体
+ @media (max-width: 1199px) {
+   .caption h3{
+     font-size: 16px;
+   }
  }
 </style>
