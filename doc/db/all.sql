@@ -142,6 +142,6 @@ CREATE TABLE `teacher`  (
   primary key (`id`)
 )ENGINE = InnoDB default charset = utf8mb4 COMMENT = '讲师';
 
-
+alter table `course` add column (`teacher_id` char(8) comment '讲师｜teacher.id');
 
 
