@@ -373,7 +373,7 @@
         let _this = this;
         //组件(页面)间传输数据可以用h5原生的localStorage,sessionStorage;也可以用js全局变量;也可以用vuex stofe，
         // 但是后两者在页面刷新时会丢失数据，所以推荐使用h5原生的。
-        SessionStorage.set("course", course);
+        SessionStorage.set(SESSION_KEY_COURSE, course);
         _this.$router.push("/business/chapter");
       },
       /**
