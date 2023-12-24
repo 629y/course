@@ -12,7 +12,7 @@
         刷新
       </button>
     </p>
-    <pagination ref="pagination" v-bind:list="list" v-bind:item-count="8"></pagination>
+    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
     <!--  v-bind:list="list",前面的list,是分页组件暴露出来的一个回调方法，后面的list，是${domain}组件的list方法  -->
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
@@ -95,7 +95,7 @@
   </div>
 </template>
 <script>
-  import Pagination from "@/components/pagination.vue";
+  import Pagination from "../../components/pagination";
 
   export default {
     name: "${module}-${domain}",
@@ -114,6 +114,7 @@
     },
     mounted:function () {
       let _this = this;
+      _this.$refs.pagination.size = 5;
       _this.list(1);
       // sidebar 激活样式方法一
       // this.$parent.activeSidebar("${module}-${domain}-sidebar");
