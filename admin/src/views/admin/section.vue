@@ -89,7 +89,16 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">视频</label>
                 <div class="col-sm-10">
-                  <input v-model="section.video" class="form-control">
+                  <file v-bind:id="'video-upload'"
+                        v-bind:text="'上传视频'"
+                        v-bind:suffixs="['mp4']"
+                        v-bind:use="FILE_USE.COURSE.key"
+                        v-bind:after-upload="afterUpload"></file>
+                  <div v-show="section.video" class="row">
+                    <div class="col-md-9">
+                      <video v-bind:src="section.video" controls="controls"></video>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -125,9 +134,9 @@
 </template>
 <script>
   import Pagination from "@/components/pagination.vue";
-  import course from "./course.vue";
-  import chapter from "./chapter.vue";
-
+  import chapter from "@/views/admin/chapter.vue";
+  import course from "@/views/admin/course.vue";
+  import File from "@/components/file.vue";
   export default {
     name: "business-section",
     computed: {
@@ -138,13 +147,14 @@
         return course
       }
     },
-    components: {Pagination},
+    components: {File, Pagination},
     data: function () {
       return {
         section:{},
         // section变量用于绑定form 表单的数据
         sections: [],
         SECTION_CHARGE:SECTION_CHARGE,
+        FILE_USE:FILE_USE,
         course:{},
         chapter:{},
       }
@@ -254,7 +264,19 @@
             }
           })
         })
+      },
+      afterUpload(resp){
+        let _this = this;
+        let video = resp.content.path;
+        _this.section.video = video;
       }
     }
   }
 </script>
+<style scoped>
+  video{
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+</style>
