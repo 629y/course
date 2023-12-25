@@ -80,8 +80,12 @@
                 <label class="col-sm-2 control-label">头像</label>
                 <div class="col-sm-10">
                   <input type="file" v-on:change="uploadImage()" id="file-upload-input">
-                  <img v-bind:src="teacher.image" class="img-responsive">
-                  <!--img-responsive:bootstrap内置的样式，图片自适应-->
+                  <div v-show="teacher.image" class="row">
+                    <div class="col-md-4">
+                      <img v-bind:src="teacher.image" class="img-responsive">
+                      <!--img-responsive:bootstrap内置的样式，图片自适应-->
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
