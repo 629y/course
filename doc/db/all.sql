@@ -129,16 +129,16 @@
 #     primary key (`id`)
 # )engine = innodb default charset = utf8mb4 comment = '课程内容';
 
-#课程内容文件
-DROP TABLE IF EXISTS `course_content_file`;
-CREATE TABLE `course_content_file`  (
-  `id` char(8) not null default '' comment 'id',
-  `course_id` char(8) not null comment '课程id',
-  `url` varchar(100) comment '地址',
-  `name` varchar(10)  comment '文件名',
-  `size` int  comment '大小|字节b',
-  primary key (`id`)
-)engine = innodb default charset = utf8mb4 comment = '课程内容文件';
+# #课程内容文件
+# DROP TABLE IF EXISTS `course_content_file`;
+# CREATE TABLE `course_content_file`  (
+#   `id` char(8) not null default '' comment 'id',
+#   `course_id` char(8) not null comment '课程id',
+#   `url` varchar(100) comment '地址',
+#   `name` varchar(10)  comment '文件名',
+#   `size` int  comment '大小|字节b',
+#   primary key (`id`)
+# )engine = innodb default charset = utf8mb4 comment = '课程内容文件';
 # #讲师
 # DROP TABLE IF EXISTS `teacher`;
 # CREATE TABLE `teacher`  (
@@ -168,3 +168,9 @@ CREATE TABLE `course_content_file`  (
 #   primary key (`id`),
 #   unique key `path_unique` (`path`)
 # )ENGINE = InnoDB default charset = utf8mb4 COMMENT = '文件';
+
+alter table `file` add column (`shard_index` int comment '已上传分片');
+alter table `file` add column (`shard_size` int comment '分片大小|B');
+alter table `file` add column (`shard_total` int comment '分片总数');
+alter table `file` add column (`key` varchar(32) comment '文件标识');
+alter table `file` add unique key key_unique(`key`);
