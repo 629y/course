@@ -38,6 +38,24 @@ export default {
       let _this = this;
       let formData = new window.FormData();
       let file = _this.$refs.file.files[0];
+
+      console.log(file);
+      /*
+        name:"fourcat.mp4"
+        lastModified:1901173357457
+        lastModifiedDate:Tue May 27 2099 14:49:17 GMT+0800 (中国标准时间){}
+        webkitRelativePath:""
+        size:37415970
+        type:"video/mp4"
+       */
+      //生成文件标识，标识多次上传的是不是同一个文件
+      let key = hex_md5(file);
+      let key10 = parseInt(key,16);
+      let key62 = Tool._10to62(key10);
+      //26个大写字母+26个小写字母+10个阿拉伯数字，共62个字符，可以表达62进制数字
+      console.log(key,key10,key62);
+
+
       //判断文件格式
       let suffixs =_this.suffixs;
       let fileName = file.name;
@@ -57,7 +75,7 @@ export default {
 
       //文件分片
       let shardSize = 10 * 1024 * 1024;   //以15MB为一个分片
-      let shardIndex = 0;//分片索引
+      let shardIndex = 1;//分片索引
       //起始位置，其实就是和mysql分页一样
       let start = shardIndex * shardSize;//当前分片起始位置
       //比如说35MB，第一个是20MB，第二个就是15MB，所以就要取最小的那个了。
@@ -76,6 +94,7 @@ export default {
       formData.append('name',file.name);
       formData.append('suffix',suffix);
       formData.append('size',size);
+      formData.append('key',key62);
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER + "/file/admin/upload",formData).then((response) => {
         Loading.hide();
