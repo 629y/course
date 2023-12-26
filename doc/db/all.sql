@@ -129,6 +129,16 @@
 #     primary key (`id`)
 # )engine = innodb default charset = utf8mb4 comment = '课程内容';
 
+#课程内容文件
+DROP TABLE IF EXISTS `course_content_file`;
+CREATE TABLE `course_content_file`  (
+  `id` char(8) not null default '' comment 'id',
+  `course_id` char(8) not null comment '课程id',
+  `url` varchar(100) comment '地址',
+  `name` varchar(10)  comment '文件名',
+  `size` int  comment '大小|字节b',
+  primary key (`id`)
+)engine = innodb default charset = utf8mb4 comment = '课程内容文件';
 # #讲师
 # DROP TABLE IF EXISTS `teacher`;
 # CREATE TABLE `teacher`  (
@@ -144,17 +154,17 @@
 #
 # alter table `course` add column (`teacher_id` char(8) comment '讲师｜teacher.id');
 
-#文件
-DROP TABLE IF EXISTS `file`;
-CREATE TABLE `file`  (
-  `id` char(8) not null default '' comment 'id',
-  `path` varchar(100) not null comment '相对路径',
-  `name` varchar(100) comment '文件名',
-  `suffix` varchar(10)  comment '后缀',
-  `size` int  comment '大小|字节B',
-  `use` char(1) comment '用途|枚举[FileUseEnum]:COURSE("C", "讲师"),TEACHER("T", "课程")',
-  `created_at` datetime(3) comment '创建时间',
-  `updated_at` datetime(3) comment '修改时间',
-  primary key (`id`),
-  unique key `path_unique` (`path`)
-)ENGINE = InnoDB default charset = utf8mb4 COMMENT = '文件';
+# #文件
+# DROP TABLE IF EXISTS `file`;
+# CREATE TABLE `file`  (
+#   `id` char(8) not null default '' comment 'id',
+#   `path` varchar(100) not null comment '相对路径',
+#   `name` varchar(100) comment '文件名',
+#   `suffix` varchar(10)  comment '后缀',
+#   `size` int  comment '大小|字节B',
+#   `use` char(1) comment '用途|枚举[FileUseEnum]:COURSE("C", "讲师"),TEACHER("T", "课程")',
+#   `created_at` datetime(3) comment '创建时间',
+#   `updated_at` datetime(3) comment '修改时间',
+#   primary key (`id`),
+#   unique key `path_unique` (`path`)
+# )ENGINE = InnoDB default charset = utf8mb4 COMMENT = '文件';
