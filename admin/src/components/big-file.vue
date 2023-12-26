@@ -74,7 +74,7 @@ export default {
       }
 
       //文件分片
-      let shardSize = 10 * 1024 * 1024;   //以15MB为一个分片
+      let shardSize = 5 * 1024 * 1024;   //以15MB为一个分片
       let shardIndex = 1;//分片索引,1表示第一个分片
 
 
@@ -120,8 +120,8 @@ export default {
             //递归，不断的重复做某一件事（上传分片），直到某个条件成立 (shardIndex == shardTotal) ,退出重复做的事。初学者慎用，容易陷入无限递归，跳不出来。
           } else {
             _this.afterUpload(resp);
+            $("#" + _this.inputId + "-input").val("");
           }
-          $("#" + _this.inputId + "-input").val("");
         });
       };
       fileReader.readAsDataURL(fileShard);
