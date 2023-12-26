@@ -10,6 +10,7 @@ import Chapter from "@/views/admin/chapter.vue";
 import Section from "@/views/admin/section.vue";
 import Teacher from "@/views/admin/teacher.vue";
 import File from "@/views/admin/file.vue";
+import Content from "@/views/admin/content.vue";
 Vue.use(Router);
 export default new Router({
     mode: "history",
@@ -47,6 +48,10 @@ export default new Router({
                 name:"business/section",
                 component: Section
             },{
+                path: "business/content",
+                name:"business/content",
+                component:Content,
+            },  {
                 path: "business/teacher",
                 name:"business/teacher",
                 component:Teacher,
