@@ -75,9 +75,9 @@ export default {
 
       //文件分片
       let shardSize = 10 * 1024 * 1024;   //以15MB为一个分片
-      let shardIndex = 1;//分片索引
+      let shardIndex = 1;//分片索引,1表示第一个分片
       //起始位置，其实就是和mysql分页一样
-      let start = shardIndex * shardSize;//当前分片起始位置
+      let start = (shardIndex - 1) * shardSize;//当前分片起始位置
       //比如说35MB，第一个是20MB，第二个就是15MB，所以就要取最小的那个了。
       let end = Math.min(file.size,start + shardSize);//当前分片结束位置
       let fileShard = file.slice(start,end);//从文件中截取当前的分片数据
