@@ -50,7 +50,16 @@ public class UploadController {
         if(!fullDir.exists()){
             fullDir.mkdirs();
         }
-        String path = dir + File.separator + key + "." + suffix;
+        //String path = dir + File.separator + key + "." + suffix + "." +fileDto.getShardIndex();
+        //小提示：当字符串拼接个数太多时，不要使用+，而是使用StringBuffer
+        String path = new StringBuffer(dir)
+                .append(File.separator)
+                .append(key)
+                .append(".")
+                .append(suffix)
+                .append(".")
+                .append(fileDto.getShardIndex())
+                .toString();
         String fullPath =FILE_PATH + path;
         File dest = new File(fullPath);
         shard.transferTo(dest);
