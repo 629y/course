@@ -4,6 +4,7 @@ Loading = {
     $.blockUI({
       message: '<img src="/static/image/loading.gif" />',
       css: {
+        zIndex:"10011",//如果不改，loading按钮会被模态框挡住，看不到转圈圈图片
         padding: "10px",
         left: "50%",
         width: "80px",
