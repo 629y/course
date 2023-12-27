@@ -124,9 +124,10 @@
 <script>
 import Pagination from "../../components/pagination";
 import BigFile from "@/components/big-file.vue";
+import File from "@/components/file.vue";
 export default {
   name: "business-teacher",
-  components: {BigFile, Pagination},
+  components: {File, BigFile, Pagination},
   data: function () {
     return {
       teacher: {},
