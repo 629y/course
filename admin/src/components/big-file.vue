@@ -74,9 +74,8 @@ export default {
       }
 
       //文件分片
-      let shardSize = 5 * 1024 * 1024;   //以15MB为一个分片
+      let shardSize = 5 * 1024 * 1024;   //以5MB为一个分片
       let shardIndex = 1;//分片索引,1表示第一个分片
-
 
       let size = file.size;
       let shardTotal = Math.ceil(size / shardSize);//总片数
@@ -91,7 +90,31 @@ export default {
         'size':file.size,
         'key':key62
       };
-      _this.upload(param);
+      _this.check(param);
+    },
+    /**
+     * 检查文件状态，是否已上传过？传到第几个分片？
+     */
+    check(param){
+      let _this = this;
+      _this.$ajax.get(process.env.VUE_APP_SERVER + "/file/admin/check/" + param.key).then((response)=>{
+        let resp = response.data;
+        if (resp.success){
+          let obj = resp.content;
+          if (!obj){
+            param.shardIndex = 1;
+            console.log("没有找到文件记录，从分片1开始上传");
+            _this.upload(param);
+          }else {
+            param.shardIndex = obj.shardIndex + 1;
+            console.log("找到文件记录，从分片" + param.shardIndex + "开始上传");
+            _this.upload(param);
+          }
+        }else {
+          Toast.warning("文件上传失败");
+          $("#" + _this.inputId + "-input").val("");
+        }
+      })
     },
     upload : function (param) {
       let _this = this;
@@ -117,7 +140,7 @@ export default {
             //上传下一个分片
             param.shardIndex = param.shardIndex + 1;
             _this.upload(param);
-            //递归，不断的重复做某一件事（上传分片），直到某个条件成立 (shardIndex == shardTotal) ,退出重复做的事。初学者慎用，容易陷入无限递归，跳不出来。
+            //递归，不断重复做某一件事（上传分片），直到某个条件成立 (shardIndex == shardTotal) ,退出重复做的事。初学者慎用，容易陷入无限递归，跳不出来。
           } else {
             _this.afterUpload(resp);
             $("#" + _this.inputId + "-input").val("");
