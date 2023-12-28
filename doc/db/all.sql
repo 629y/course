@@ -54,7 +54,7 @@
 # INSERT INTO `section` (id, title, course_id, chapter_id, video, time, charge, sort, created_at, updated_at)
 # VALUES ('00000001','测试小节01','00000001','00000000','',500,'F',1,now(),now());
 
-alter table `section` add column (`vod` char(32) comment 'VOD|阿里云VOD');
+# alter table `section` add column (`vod` char(32) comment 'vod|阿里云vod');
 
 #--课程
 # drop table if exists course;
@@ -176,3 +176,4 @@ alter table `section` add column (`vod` char(32) comment 'VOD|阿里云VOD');
 # alter table `file` add column (`shard_total` int comment '分片总数');
 # alter table `file` add column (`key` varchar(32) comment '文件标识');
 # alter table `file` add unique key key_unique(`key`);
+alter table `file` add column (`vod` varchar(32) comment 'vod|阿里云vod');

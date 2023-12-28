@@ -50,13 +50,13 @@
 <!--        <table tableName="test" domainObjectName="Test"/>-->
 <!--        <table tableName="chapter" domainObjectName="Chapter"/>-->
 <!--        mybatis generator 支持同时生成多个table，但我们最好每次只生成一张表，其它表都注释掉-->
-        <table tableName="section" domainObjectName="Section"/>
+<!--        <table tableName="section" domainObjectName="Section"/>-->
 <!--        <table tableName="course" domainObjectName="Course"/>-->
 <!--        <table tableName="category" domainObjectName="Category"/>-->
 <!--        <table tableName="course_category" domainObjectName="CourseCategory"/>-->
 <!--        <table tableName="course_content" domainObjectName="CourseContent"/>-->
 <!--        <table tableName="course_content_file" domainObjectName="CourseContentFile"/>-->
 <!--        <table tableName="teacher" domainObjectName="Teacher"/>-->
-<!--        <table tableName="file" domainObjectName="File"/>-->
+        <table tableName="file" domainObjectName="File"/>
     </context>
 </generatorConfiguration>
