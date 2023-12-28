@@ -54,6 +54,8 @@
 # INSERT INTO `section` (id, title, course_id, chapter_id, video, time, charge, sort, created_at, updated_at)
 # VALUES ('00000001','测试小节01','00000001','00000000','',500,'F',1,now(),now());
 
+alter table `section` add column (`vod` char(32) comment 'VOD|阿里云VOD');
+
 #--课程
 # drop table if exists course;
 # create table course(
@@ -169,8 +171,8 @@
 #   unique key `path_unique` (`path`)
 # )ENGINE = InnoDB default charset = utf8mb4 COMMENT = '文件';
 
-alter table `file` add column (`shard_index` int comment '已上传分片');
-alter table `file` add column (`shard_size` int comment '分片大小|B');
-alter table `file` add column (`shard_total` int comment '分片总数');
-alter table `file` add column (`key` varchar(32) comment '文件标识');
-alter table `file` add unique key key_unique(`key`);
+# alter table `file` add column (`shard_index` int comment '已上传分片');
+# alter table `file` add column (`shard_size` int comment '分片大小|B');
+# alter table `file` add column (`shard_total` int comment '分片总数');
+# alter table `file` add column (`key` varchar(32) comment '文件标识');
+# alter table `file` add unique key key_unique(`key`);
