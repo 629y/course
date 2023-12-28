@@ -4,8 +4,8 @@
             v-bind:suffixs="suffixs"
             v-bind:use="use"
             v-bind:after-upload="afterUpload"
-            v-bind:shard-size="shardSize"
-            v-bind:url="'oss-append'">
+            v-bind:shard-size="1000 * 1024 *1024"
+            v-bind:url="'vod'">
   </big-file>
 </template>
 
@@ -26,9 +26,6 @@ export default {
     },
     use: {
       default: ""
-    },
-    shardSize: {
-      default: 50 * 1024
     },
     afterUpload: {
       type: Function,

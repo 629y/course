@@ -234,6 +234,8 @@
        */
       save(page) {
         let _this = this;
+        //我们的校验逻辑里，空值是不会做长度校验的。
+        _this.section.video = "";
 
         // 保存校验
         //1! = 1 的设计，类似于mybatis 的动态sql 设计，在拼动态where 条件时，会在前面加 1==1
@@ -283,7 +285,9 @@
       afterUpload(resp){
         let _this = this;
         let video = resp.content.path;
+        let vod = resp.content.vod;
         _this.section.video = video;
+        _this.section.vod = vod;
         _this.getTime();
       },
       /*
@@ -293,8 +297,10 @@
         let _this = this;
         setTimeout(function () {
           let ele = document.getElementById("video");
+          console.log(ele)
           _this.section.time = parseInt(ele.duration, 10);
-        }, 100);
+          console.log(_this.section.time);
+        }, 1000);
       },
     }
   }

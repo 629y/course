@@ -42,7 +42,7 @@ public class VodUtil {
         request.setTitle(fileName);
         //request.setDescription("this is desc");
         //request.setTags("tag1,tag2");
-        request.setCoverURL("http://vod.aliyun.com/test_cover_url.jpg");
+//        request.setCoverURL("http://vod.aliyun.com/test_cover_url.jpg");
         request.setCateId(1000534439L);
         request.setTemplateGroupId("b392a07e1f355145a64b0b2ff1b00632");
         //request.setWorkflowId("");
@@ -180,6 +180,8 @@ public class VodUtil {
             GetMezzanineInfoResponse response = new GetMezzanineInfoResponse();
             response = getMezzanineInfo(vodClient, videoId);
             System.out.println("获取视频信息, response : " + JSON.toJSONString(response));
+            //阿里云JAR里的实体类里没有重写toString()方法，所以每次打印日志都要用JSON.toJSONString(),
+            // 这就是为什么我要求自己的实体类要生成toString()
         } catch (Exception e) {
             System.out.println("上传视频失败, ErrorMessage : " + e.getLocalizedMessage());
         }
