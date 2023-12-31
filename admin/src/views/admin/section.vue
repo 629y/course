@@ -96,7 +96,8 @@
                         v-bind:after-upload="afterUpload"></vod>
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
-                      <video v-bind:src="section.video" id="video" controls="controls"></video>
+                      <player ref="player"></player>
+                      <video v-bind:src="section.video" id="video" controls="controls" class="hidden"></video>
                     </div>
                   </div>
                 </div>
@@ -158,11 +159,12 @@
   import Pagination from "@/components/pagination.vue";
   import BigFile from "@/components/big-file.vue";
   import Vod from "@/components/vod.vue";
+  import Player from "@/components/player.vue";
   export default {
     name: "business-section",
     computed: {
     },
-    components: {Vod, BigFile, Pagination},
+    components: {Player, Vod, BigFile, Pagination},
     data: function () {
       return {
         section:{},
@@ -289,6 +291,7 @@
         _this.section.video = video;
         _this.section.vod = vod;
         _this.getTime();
+        _this.$refs.player.playUrl(video);
       },
       /*
       获取时长
