@@ -125,6 +125,7 @@ public class VodController {
     public ResponseDto getAuth(@PathVariable String vod) throws ClientException {
         LOG.info("获取播放授权开始: ");
         ResponseDto responseDto = new ResponseDto();
+        //先初始化
         DefaultAcsClient client = VodUtil.initVodClient(accessKeyId, accessKeySecret);
         GetVideoPlayAuthResponse response = new GetVideoPlayAuthResponse();
         try {

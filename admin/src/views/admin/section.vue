@@ -27,7 +27,7 @@
       <tr>
         <th>ID</th>
         <th>标题</th>
-        <th>视频</th>
+        <th>VOD</th>
         <th>时长</th>
         <th>收费</th>
         <th>顺序</th>
@@ -38,12 +38,16 @@
       <tr v-for="section in sections">
         <td>{{ section.id}}</td>
         <td>{{ section.title}}</td>
-        <td>{{ section.video}}</td>
+        <td>{{ section.vod}}</td>
         <td>{{ section.time | formatSecond}}</td>
         <td>{{ SECTION_CHARGE | optionKV(section.charge)}}</td>
         <td>{{ section.sort}}</td>
       <td>
         <div class="hidden-sm hidden-xs btn-group">
+          <button v-on:click="play(section)" class="btn btn-xs btn-info">
+            <i class="ace-icon fa fa-video-camera  bigger-120"></i>
+          </button>
+
           <button v-on:click="edit(section)" class="btn btn-xs btn-info">
             <!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据section，赋给vue变量_this.section
                               vue变量_this.section会通过v-model属性和form表单做数据绑定-->
@@ -96,7 +100,7 @@
                         v-bind:after-upload="afterUpload"></vod>
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
-                      <player ref="player"></player>
+                      <player v-bind:player-id="'form-player-div '" ref="player"></player>
                       <video v-bind:src="section.video" id="video" controls="controls" class="hidden"></video>
                     </div>
                   </div>
@@ -153,6 +157,8 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+<!--    带有弹出框的播放器-->
+    <modal-player ref="modalPlayer"></modal-player>
   </div>
 </template>
 <script>
@@ -160,11 +166,12 @@
   import BigFile from "@/components/big-file.vue";
   import Vod from "@/components/vod.vue";
   import Player from "@/components/player.vue";
+  import ModalPlayer from "@/components/modal-player.vue";
   export default {
     name: "business-section",
     computed: {
     },
-    components: {Player, Vod, BigFile, Pagination},
+    components: {ModalPlayer, Player, Vod, BigFile, Pagination},
     data: function () {
       return {
         section:{},
@@ -293,7 +300,7 @@
         _this.getTime();
         _this.$refs.player.playUrl(video);
       },
-      /*
+      /**
       获取时长
        */
       getTime(){
@@ -305,6 +312,14 @@
           console.log(_this.section.time);
         }, 1000);
       },
+      /**
+       *播放视频
+       * @param section
+       */
+      play(section) {
+        let _this = this;
+        _this.$refs.modalPlayer.playVod(section.vod);
+      }
     }
   }
 </script>
