@@ -25,12 +25,6 @@ export default {
     use:{
       default: ""
     },
-    shardSize: {
-      default: 50 * 1024
-    },
-    url : {
-      default: "oss-append"
-    },
     afterUpload: {
       type: Function,
       default: null
@@ -146,7 +140,7 @@ export default {
 
         param.shard = base64;
 
-        _this.$ajax.post(process.env.VUE_APP_SERVER + "/file/admin/" + _this.url, param).then((response) => {
+        _this.$ajax.post(process.env.VUE_APP_SERVER + "/file/admin/oss-append", param).then((response) => {
           let resp = response.data;
           console.log("上传文件成功：", resp);
           Progress.show(parseInt(shardIndex  * 100 / shardTotal));
