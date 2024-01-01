@@ -4,6 +4,8 @@ import com.course.server.domain.User;
 import com.course.server.domain.UserExample;
 import com.course.server.dto.UserDto;
 import com.course.server.dto.PageDto;
+import com.course.server.exception.BusinessException;
+import com.course.server.exception.BusinessExceptionCode;
 import com.course.server.mapper.UserMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
@@ -11,6 +13,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -48,6 +51,12 @@ public class UserService {
     private void insert(User user) {
         //目前使用BeanUtil.copyProperties，需要多行代码，后续会对其做封装优化。
         user.setId(UuidUtil.getShortUuid());
+        User userDb = this.selectByLoginName(user.getLoginName());
+        //如果user变量已经存在了，则从数据库中查出来的，我们可以约定Db结尾，用userDb
+        if (userDb != null){
+            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+            //业务上的逻辑校验，在校验不通过时，使用业务异常（自定义异常）
+        }
         userMapper.insert(user);
     }
     /**
@@ -61,5 +70,22 @@ public class UserService {
      */
     public void delete(String id) {
         userMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 根据登录名查询用户信息
+     * @param loginName
+     * @return
+     */
+    public User selectByLoginName(String loginName){
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andLoginNameEqualTo(loginName);
+        //loginName 是唯一的，所以查出来要么没有记录，要么只有一条记录
+        List<User> userList = userMapper.selectByExample(userExample);
+        if (CollectionUtils.isEmpty(userList)){
+            return null;
+        }else {
+            return userList.get(0);
+        }
     }
 }
