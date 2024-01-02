@@ -535,6 +535,7 @@ export default {
     // console.log("admin");
     // sidebar 激活样式方法二
     _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+    $.getScript('/ace/assets/js/ace.min.js');
   },
   // 此时如果从login页面点击登录跳到welcome页面，welcome并不会有激活样式。这里的watch，只在admin下面的子组件互相跳转时有效
   watch: {
