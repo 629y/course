@@ -2,8 +2,8 @@ package com.course.server.service;
 
 import com.course.server.domain.User;
 import com.course.server.domain.UserExample;
-import com.course.server.dto.UserDto;
 import com.course.server.dto.PageDto;
+import com.course.server.dto.UserDto;
 import com.course.server.exception.BusinessException;
 import com.course.server.exception.BusinessExceptionCode;
 import com.course.server.mapper.UserMapper;
@@ -63,7 +63,10 @@ public class UserService {
      * 更新
      */
     private void update(User user) {
-        userMapper.updateByPrimaryKey(user);
+        user.setPassword(null);
+        userMapper.updateByPrimaryKeySelective(user);
+        //mybatis-generator 生成的方法里，updateByPrimaryKeySelective会对字段进行非空判断，
+        //再更新，如果值为空就不更新，原理就是利用mybatis的if拼成动态sql
     }
     /**
      * 删除
@@ -87,5 +90,16 @@ public class UserService {
         }else {
             return userList.get(0);
         }
+    }
+
+    /**
+     * 重置密码
+     * @param userDto
+     */
+    public void savePassword(UserDto userDto){
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setPassword(userDto.getPassword());
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }
