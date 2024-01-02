@@ -20,8 +20,7 @@ public interface UserMapper {
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 
     int updateByExample(@Param("record") User record, @Param("example") UserExample example);
-
+    int updateByPrimaryKeySelective(User record);
     int updateByPrimaryKey(User record);
-
-    int deleteByPrimaryKey(String record);
+    int deleteByPrimaryKey(String id);
 }

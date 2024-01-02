@@ -7,6 +7,7 @@ import com.course.server.service.UserService;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -35,6 +36,8 @@ public class UserController {
      */
     @PostMapping("/save")
     public ResponseDto save(@RequestBody UserDto userDto){
+        //保险方案：对密码做两层加密
+        userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
         //LOG.info("userDto:{}",userDto);
 
         //保存校验
