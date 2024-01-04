@@ -84,4 +84,17 @@ Tool = {
     } while (number);
     return arr.join('');
   },
+  /**
+   * 保存登录用户信息
+   */
+  setLoginUser: function (loginUser) {
+    SessionStorage.set(SESSION_KEY_LOGIN_USER,loginUser);
+  },
+  /**
+   * 获取登录用户信息
+   */
+  getLoginUser: function () {
+    return SessionStorage.get(SESSION_KEY_LOGIN_USER) || {};
+    //小技巧：在获取一些对象的时候，加上|| {},避免获取属性值时报错。
+  },
 };

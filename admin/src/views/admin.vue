@@ -287,10 +287,6 @@
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                 <img class="nav-user-photo" src="../../public/ace/../../public/ace/assets/images/avatars/user.jpg"
                      alt="Jason's Photo"/>
-                <span class="user-info">
-									<small>Welcome,</small>
-									Jason
-								</span>
 
                 <i class="ace-icon fa fa-caret-down"></i>
               </a>
@@ -364,7 +360,7 @@
           <li class="" id="welcome-sidebar">
             <router-link to="/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> 欢迎 </span>
+              <span class="menu-text"> 欢迎：{{loginUser.name}} </span>
             </router-link>
 
             <b class="arrow"></b>
@@ -525,8 +521,12 @@
 <script>
 
 export default {
-
-  name: 'login',
+  name: 'admin',
+  data: function () {
+    return {
+      loginUser:{},
+    }
+  },
   mounted: function () {
     // js中有this 关键字，代表当前执行方法的对象。养成习惯，在方法开头，声明本地变量_this 代替this。后面会介绍直接用this的坑。
     let _this = this;
@@ -536,6 +536,7 @@ export default {
     // sidebar 激活样式方法二
     _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
     $.getScript('/ace/assets/js/ace.min.js');
+    _this.loginUser = Tool.getLoginUser();
   },
   // 此时如果从login页面点击登录跳到welcome页面，welcome并不会有激活样式。这里的watch，只在admin下面的子组件互相跳转时有效
   watch: {
