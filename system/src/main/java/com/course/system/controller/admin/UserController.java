@@ -5,6 +5,7 @@ import com.course.server.service.UserService;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Resource
+    public RedisTemplate redisTemplate;
     /**
      * 列表查询
      */
@@ -87,7 +90,9 @@ public class UserController {
         //在登录里面，增加验证码校验：通过token去缓存中获取验证码字符串，并和用户输入的字符串做比较。
         //根据验证码token去获取缓存中的验证码，和用户输入的验证码是否一致
         //前后端分离会有一个问题，每次ajax请求，后端的session是不一样的。
-        String imageCode = (String) request.getSession().getAttribute(userDto.getImageCodeToken());
+        //String imageCode = (String) request.getSession().getAttribute(userDto.getImageCodeToken());
+        String imageCode = (String) redisTemplate.opsForValue().get(userDto.getImageCodeToken());
+        LOG.info("从redis中获取到的验证码:{}",imageCode);
         if (StringUtils.isEmpty(imageCode)){
             responseDto.setSuccess(false);
             responseDto.setMessage("验证码已过期");
