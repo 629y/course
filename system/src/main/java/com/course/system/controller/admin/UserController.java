@@ -1,7 +1,9 @@
 package com.course.system.controller.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.course.server.dto.*;
 import com.course.server.service.UserService;
+import com.course.server.util.UuidUtil;
 import com.course.server.util.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/admin/user")
@@ -106,21 +109,29 @@ public class UserController {
             return responseDto;
         }else {
             //验证通过后，移除验证码
-            request.getSession().removeAttribute(userDto.getImageCodeToken());
+            //request.getSession().removeAttribute(userDto.getImageCodeToken());
+            redisTemplate.delete(userDto.getImageCodeToken());
         }
 
         LoginUserDto loginUserDto = userService.login(userDto);
-        request.getSession().setAttribute(Constants.LOGIN_USER,loginUserDto);
+        String token = UuidUtil.getShortUuid();
+        loginUserDto.setToken(token);
+//        request.getSession().setAttribute(Constants.LOGIN_USER,loginUserDto);
+        redisTemplate.opsForValue().set(token, JSON.toJSONString(loginUserDto),3600, TimeUnit.SECONDS);
+        //这里也可以直接保存loginUserDto对象，但是需要序列化。如果是跨应用使用的，比如A应用存，B应用取，
+        //一般会把值转成JSON字符串。
         responseDto.setContent(loginUserDto);
         return responseDto;
     }
     /**
      * 退出登录
      */
-    @GetMapping("/logout")
-    public ResponseDto login(HttpServletRequest request){
+    @GetMapping("/logout/{token}")
+    public ResponseDto login(@PathVariable String token){
         ResponseDto responseDto = new ResponseDto();
-        request.getSession().removeAttribute(Constants.LOGIN_USER);
+//        request.getSession().removeAttribute(Constants.LOGIN_USER);
+        redisTemplate.delete(token);
+        LOG.info("从redis中删除token:{}",token);
         return responseDto;
     }
 }
