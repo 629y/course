@@ -178,13 +178,34 @@
 # alter table `file` add unique key key_unique(`key`);
 # alter table `file` add column (`vod` varchar(32) comment 'vod|阿里云vod');
 
-drop table if exists `user`;
-create table `user` (
-  `id` char(8) not null default '' comment 'id',
-  `login_name` varchar(50) not null comment '登录名',
-  `name` varchar(50) comment '昵称',
-  `password` char(32) not null comment '密码',
-  primary key (`id`),
-  unique key `login_name_unique` (`login_name`)
-) engine=innodb default charset=utf8mb4 comment='用户';
-insert into user (id, login_name, name, password) VALUES ('10000000','test','测试','test11');
+# drop table if exists `user`;
+# create table `user` (
+#   `id` char(8) not null default '' comment 'id',
+#   `login_name` varchar(50) not null comment '登录名',
+#   `name` varchar(50) comment '昵称',
+#   `password` char(32) not null comment '密码',
+#   primary key (`id`),
+#   unique key `login_name_unique` (`login_name`)
+# ) engine=innodb default charset=utf8mb4 comment='用户';
+# insert into user (id, login_name, name, password) VALUES ('10000000','test','测试','test11');
+
+#资源
+drop table if exists `resource`;
+create table `resource` (
+  `id` char(6) not null default '' comment 'id',
+  `name` varchar(100) not null comment '名称|菜单或按钮',
+  `page` varchar(50) null comment '页面|路由',
+  `request` varchar(200) null comment '请求|接口',
+  `parent` char(6) comment '父id',
+  primary key (`id`)
+) engine=innodb default charset=utf8mb4 comment='资源';
+
+insert into `resource` values ('01','系统管理', null, null, null);
+insert into `resource` values ('0101','用户管理', '/system/user', null, '01');
+insert into `resource` values ('010101','保存', null,'["/system/admin/user/list","/system/admin/user/save"]','0101');
+insert into `resource` values ('010102','删除', null, '["/system/admin/user/delete"]', '0101');
+insert into `resource` values ('010103','重置密码', null, '["/system/admin/user/save-password"]', '0101');
+insert into `resource` values ('0102','资源管理', '/system/resource', null, '01');
+insert into `resource` values ('010201','保存/显示', null, '["/system/admin/resource"]', '0102');
+insert into `resource` values ('0103','角色管理','/system/role', null, '01');
+insert into `resource` values ('010301','角色/权限管理', null, '["/system/admin/role"]', '0103');
