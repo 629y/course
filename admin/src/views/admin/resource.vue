@@ -16,66 +16,26 @@
         </button>
       </div>
       <div class="col-md-6">
+        <ul id="tree" class="ztree"></ul>
       </div>
     </div>
-    <hr>
-    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
-    <!--  v-bind:list="list",前面的list,是分页组件暴露出来的一个回调方法，后面的list，是resource组件的list方法  -->
-    <table id="simple-table" class="table  table-bordered table-hover">
-      <thead>
-      <tr>
-        <th>id</th>
-        <th>名称</th>
-        <th>页面</th>
-        <th>请求</th>
-        <th>父id</th>
-        <th>操作</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="resource in resources">
-        <td>{{resource.id}}</td>
-        <td>{{resource.name}}</td>
-        <td>{{resource.page}}</td>
-        <td>{{resource.request}}</td>
-        <td>{{resource.parent}}</td>
-      <td>
-        <div class="hidden-sm hidden-xs btn-group">
-          <button v-on:click="edit(resource)" class="btn btn-xs btn-info">
-            <!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据resource，赋给vue变量_this.resource
-                              vue变量_this.resource会通过v-model属性和form表单做数据绑定-->
-            <i class="ace-icon fa fa-pencil bigger-120"></i>
-          </button>
-
-          <button v-on:click="del(resource.id)" class="btn btn-xs btn-danger">
-            <!--              delete 是js 的关键字，vue 方法里不能使用js 关键字-->
-            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-          </button>
-        </div>
-      </td>
-      </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 <script>
-  import Pagination from "../../components/pagination";
-
   export default {
     name: "system-resource",
-    components: {Pagination},
     data: function () {
       return {
         resource:{},
         // resource变量用于绑定form 表单的数据
         resources: [],
         resourceStr:"",
+        tree:{},
       }
     },
     mounted:function () {
       let _this = this;
-      _this.$refs.pagination.size = 5;
-      _this.list(1);
+      _this.list();
       // sidebar 激活样式方法一
       // this.$parent.activeSidebar("system-resource-sidebar");
     },
@@ -83,20 +43,16 @@
       /**
        * 列表查询
        */
-      list(page) {
+      list() {
         let _this = this;
         Loading.show();
-        _this.$refs.pagination.size = 5;
         // /admin 用于控台类的接口，/web 用于网站类的接口。接口设计中，用不同的请求前缀代表不同的入口，做接口隔离，方便做鉴权、统计、监控等
-        _this.$ajax.post(process.env.VUE_APP_SERVER +"/system/admin/resource/list",{
-          page:page,
-          size:_this.$refs.pagination.size,
-        }).then((response) => {
+        _this.$ajax.get(process.env.VUE_APP_SERVER +"/system/admin/resource/load-tree").then((res) => {
           Loading.hide();
-          let resp = response.data;
-          _this.resources = resp.content.list;
-          //response.data 就相当于responseDto
-          _this.$refs.pagination.render(page,resp.content.total);
+          let response = res.data;
+          _this.resources = response.content;
+          //初始化树
+          _this.initTree();
         })
       },
       /**
@@ -142,7 +98,24 @@
             }
           })
         })
-      }
+      },
+      /**
+       * 初始化资源树
+       */
+      initTree(){
+        let _this = this;
+        let setting = {
+          data:{
+            simpleData:{
+              idKey:"id",
+              pIdKey:"parent",
+              rootPId:"",
+            }
+          }
+        };
+        _this.zTree = $.fn.zTree.init($("#tree"),setting,_this.resources);
+        _this.zTree.expandAll(true);
+      },
     }
   }
 </script>
