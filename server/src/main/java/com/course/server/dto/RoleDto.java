@@ -22,12 +22,14 @@ public class RoleDto {
 
     private List<String> resourceIds;
 
-    public List<String> getResourceIds() {
-        return resourceIds;
+    private List<String> userIds;
+
+    public List<String> getUserIds() {
+        return userIds;
     }
 
-    public void setResourceIds(List<String> resourceIds) {
-        this.resourceIds = resourceIds;
+    public void setUserIds(List<String> userIds) {
+        this.userIds = userIds;
     }
 
     @Override
@@ -37,8 +39,17 @@ public class RoleDto {
         sb.append(", name='").append(name).append('\'');
         sb.append(", desc='").append(desc).append('\'');
         sb.append(", resourceIds=").append(resourceIds);
+        sb.append(", userIds=").append(userIds);
         sb.append('}');
         return sb.toString();
+    }
+
+    public List<String> getResourceIds() {
+        return resourceIds;
+    }
+
+    public void setResourceIds(List<String> resourceIds) {
+        this.resourceIds = resourceIds;
     }
 
     public String getId() {
