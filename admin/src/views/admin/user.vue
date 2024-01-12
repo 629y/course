@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+      <button v-show="hasResource('010101')" v-on:click="add()" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa-edit"></i>
         <!--        fa-edit 参考font awesome 图标-->
         新增
@@ -32,16 +32,16 @@
         <td>{{user.password}}</td>
       <td>
         <div class="hidden-sm hidden-xs btn-group">
-          <button v-on:click="editPassword(user)" class="btn btn-xs btn-info">
+          <button v-show="hasResource('010103')" v-on:click="editPassword(user)" class="btn btn-xs btn-info">
             <i class="ace-icon fa fa-key bigger-120"></i>
           </button>
-          <button v-on:click="edit(user)" class="btn btn-xs btn-info">
+          <button v-show="hasResource('010101')" v-on:click="edit(user)" class="btn btn-xs btn-info">
             <!--              1.将表格每一行数据传递到edit中做处理2.将传递过来的一行数据user，赋给vue变量_this.user
                               vue变量_this.user会通过v-model属性和form表单做数据绑定-->
             <i class="ace-icon fa fa-pencil bigger-120"></i>
           </button>
 
-          <button v-on:click="del(user.id)" class="btn btn-xs btn-danger">
+          <button v-show="hasResource('010102')" v-on:click="del(user.id)" class="btn btn-xs btn-danger">
             <!--              delete 是js 的关键字，vue 方法里不能使用js 关键字-->
             <i class="ace-icon fa fa-trash-o bigger-120"></i>
           </button>
@@ -140,6 +140,14 @@
       // this.$parent.activeSidebar("system-user-sidebar");
     },
     methods:{
+      /**
+       * 查找是否有权限
+       * @param id
+       * @return {boolean}
+       */
+      hasResource(id){
+        return Tool.hasResource(id);
+      },
       /**
        * 点击【新增】
        */
