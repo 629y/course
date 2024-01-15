@@ -9,7 +9,8 @@
           一步一步搭建一个完整的企业级开发架构。不讲废话，只讲干货。
         </p>
         <p>
-          <a href="#" class="btn btn-primary my-2 p-3 font-weight-bold">点击进入所有课程</a>
+          <router-link to="/list" class="btn btn-primary my-2 p-3 font-weight-bold">点击进入所有课程
+          </router-link>
         </p>
       </div>
     </section>
