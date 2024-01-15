@@ -7,6 +7,7 @@
             <the-course v-bind:course="o"></the-course>
           </div>
           <h3 v-show="courses.length === 0">课程还未上架</h3>
+          <!--这是一个比较常见的写法：如果列表有值，就显示列表，没有值就显示某段文字-->
         </div>
       </div>
     </div>
@@ -31,8 +32,19 @@ export default {
     /**
      * 查询课程列表
      */
-    listCourse(){
+    listCourse(page){
       let _this = this;
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/course/list',{
+        page:page,
+        size:3,
+      }).then((response)=>{
+        let resp = response.data;
+        if (resp.success){
+          _this.courses = resp.content.list;
+        }
+      }).catch((response)=>{
+        console.log("error:",response);
+      })
     },
   }
 }
