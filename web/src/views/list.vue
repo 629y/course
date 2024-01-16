@@ -141,11 +141,14 @@ export default {
       }
     },
     /**
-     * 点击一级分类时
+     * 点击二级分类时
      * @param level2Id
      */
     onClickLevel2(level2Id) {
       let _this = this;
+      //点击二级分类时，显示激活状态
+      $("#category-" + level2Id).siblings("a").removeClass("on");
+      $("#category-" + level2Id).addClass("on");
     },
   }
 }
