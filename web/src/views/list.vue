@@ -97,15 +97,6 @@ export default {
           //如果分类的父id是00000000，表示它是一级分类，否则是二级分类
           if (c.parent === '00000000'){
             _this.level1.push(c);
-            for (let j = 0; j < _this.categorys.length; j++) {
-              let child = _this.categorys[j];
-              if (child.parent === c.id){
-                if(Tool.isEmpty(c.children)){
-                  c.children = [];
-                }
-                c.children.push(child);
-              }
-            }
           }else{
             _this.level2.push(c);
           }
@@ -118,6 +109,36 @@ export default {
      */
     onClickLevel1(level1Id) {
       let _this = this;
+      //和之前介绍过的控台侧边栏菜单激活状态一样。先移除所有兄弟节点的激活状态（删除cur样式），再为当前节点增加激活状态（增加cur样式）
+
+      //点击一级分类时，显示激活状态
+      $("#category-" + level1Id).siblings("a").removeClass("cur");
+      $("#category-" + level1Id).addClass("cur");
+      //点击一级分类时，二级分类[不限]按钮要设置激活状态
+      $("#category-11111111").siblings("a").removeClass("on");
+      $("#category-11111111").addClass("on");
+
+      //注意：要先把level2中所有的值清空，再往里放
+      _this.level2 = [];
+      let categorys = _this.categorys;
+      //如果点击的是【全部】，则显示所有的二级分类
+      if (level1Id === '00000000'){
+        for (let i = 0; i < categorys.length; i++) {
+          let c = categorys[i];
+          if (c.parent !== "00000000"){
+            _this.level2.push(c);
+          }
+        }
+      }
+      //如果点击的是某个一级分类，则显示该一级分类下的二级分类
+      if (level1Id !== '00000000'){
+        for (let i = 0; i < categorys.length; i++) {
+          let c = categorys[i];
+          if (c.parent === level1Id){
+            _this.level2.push(c);
+          }
+        }
+      }
     },
     /**
      * 点击一级分类时
