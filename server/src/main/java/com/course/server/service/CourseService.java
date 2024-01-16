@@ -17,11 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CourseService {
@@ -36,22 +35,14 @@ public class CourseService {
     @Resource
     private CourseContentMapper courseContentMapper;
     /**
-     * 列表查询
+     * 列表查询:关联课程分类表
+     * @param pageDto
      */
     public void list(CoursePageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
-        CourseExample courseExample = new CourseExample();
-        CourseExample.Criteria criteria = courseExample.createCriteria();
-        //status查询条件不是必需的，控台接口进来的就不需要这个条件，网站接口进来的有这个条件，所以增加一个status条件判断
-        //这段写法比较常见，参数有值就做为条件查询，没值就不加条件，相当于写动态sql
-        if (!StringUtils.isEmpty(pageDto.getStatus())){
-            criteria.andStatusEqualTo(pageDto.getStatus());
-        }
-        courseExample.setOrderByClause("sort asc");
-        List<Course> courseList = courseMapper.selectByExample(courseExample);
-        PageInfo<Course> pageInfo = new PageInfo<>(courseList);
+        List<CourseDto> courseDtoList = myCourseMapper.list(pageDto);
+        PageInfo<CourseDto> pageInfo = new PageInfo<>(courseDtoList);
         pageDto.setTotal(pageInfo.getTotal());
-        List<CourseDto> courseDtoList = CopyUtil.copyList(courseList, CourseDto.class);
         pageDto.setList(courseDtoList);
     }
     /**
