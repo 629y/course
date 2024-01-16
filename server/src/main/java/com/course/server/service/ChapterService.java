@@ -4,7 +4,6 @@ import com.course.server.domain.Chapter;
 import com.course.server.domain.ChapterExample;
 import com.course.server.dto.ChapterDto;
 import com.course.server.dto.ChapterPageDto;
-import com.course.server.dto.PageDto;
 import com.course.server.mapper.ChapterMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
@@ -74,5 +73,15 @@ public class ChapterService {
      */
     public void delete(String id) {
         chapterMapper.deleteByPrimaryKey(id);
+    }
+    /**
+     * 查询某一课程下的所有章
+     */
+    public List<ChapterDto> listByCourse(String courseId){
+        ChapterExample example = new ChapterExample();
+        example.createCriteria().andCourseIdEqualTo(courseId);
+        List<Chapter> chapterList = chapterMapper.selectByExample(example);
+        List<ChapterDto> chapterDtoList = CopyUtil.copyList(chapterList, ChapterDto.class);
+        return chapterDtoList;
     }
 }

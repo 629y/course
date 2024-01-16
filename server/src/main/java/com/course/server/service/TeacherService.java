@@ -2,11 +2,8 @@ package com.course.server.service;
 
 import com.course.server.domain.Teacher;
 import com.course.server.domain.TeacherExample;
-import com.course.server.domain.Teacher;
-import com.course.server.domain.TeacherExample;
-import com.course.server.dto.TeacherDto;
-import com.course.server.dto.TeacherDto;
 import com.course.server.dto.PageDto;
+import com.course.server.dto.TeacherDto;
 import com.course.server.mapper.TeacherMapper;
 import com.course.server.util.CopyUtil;
 import com.course.server.util.UuidUtil;
@@ -73,5 +70,15 @@ public class TeacherService {
         TeacherExample teacherExample = new TeacherExample();
         List<Teacher> teacherList = teacherMapper.selectByExample(teacherExample);
         return CopyUtil.copyList(teacherList, TeacherDto.class);
+    }
+
+    /**
+     * 查找
+     * @param id
+     * @return
+     */
+    public TeacherDto findById(String id){
+        Teacher teacher = teacherMapper.selectByPrimaryKey(id);
+        return CopyUtil.copy(teacher,TeacherDto.class);
     }
 }

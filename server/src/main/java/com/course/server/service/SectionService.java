@@ -3,7 +3,6 @@ package com.course.server.service;
 import com.course.server.domain.Section;
 import com.course.server.domain.SectionExample;
 import com.course.server.dto.SectionDto;
-import com.course.server.dto.PageDto;
 import com.course.server.dto.SectionPageDto;
 import com.course.server.enums.SectionChargeEnum;
 import com.course.server.mapper.SectionMapper;
@@ -13,13 +12,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 @Service
 public class SectionService {
     @Resource
@@ -92,5 +90,15 @@ public class SectionService {
      */
     public void delete(String id) {
         sectionMapper.deleteByPrimaryKey(id);
+    }
+    /**
+     * 查询某一课程下的所有节
+     */
+    public List<SectionDto> listByCourse(String courseId){
+        SectionExample example = new SectionExample();
+        example.createCriteria().andChapterIdEqualTo(courseId);
+        List<Section> sectionList = sectionMapper.selectByExample(example);
+        List<SectionDto> sectionDtoList = CopyUtil.copyList(sectionList, SectionDto.class);
+        return sectionDtoList;
     }
 }
