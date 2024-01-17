@@ -96,7 +96,7 @@ public class SectionService {
      */
     public List<SectionDto> listByCourse(String courseId){
         SectionExample example = new SectionExample();
-        example.createCriteria().andChapterIdEqualTo(courseId);
+        example.createCriteria().andCourseIdEqualTo(courseId);
         List<Section> sectionList = sectionMapper.selectByExample(example);
         List<SectionDto> sectionDtoList = CopyUtil.copyList(sectionList, SectionDto.class);
         return sectionDtoList;
