@@ -42,15 +42,9 @@
           {"id": "020301","name": "增删改查","request": ["/business/admin/teacher"]}
         ]
       }, {
-        "id" : "0204","name": "大章管理","page": "business/chapter",
+        "id" : "0204","name": "会员管理","page": "business/member",
         "children": [
-          {"id": "020401","name": "增删改查","request": ["/business/admin/course","/business/admin/chapter"]}
-        ]
-      },
-      {
-        "id" : "0205","name": "小节管理","page": "business/section",
-        "children": [
-          {"id": "020501","name": "增删改查","request": ["/business/admin/section","/business/admin/chapter"]}
+          {"id": "020401","name": "增删改查","request": ["/business/admin/member"]}
         ]
       }
     ]
