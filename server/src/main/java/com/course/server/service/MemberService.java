@@ -50,6 +50,7 @@ public class MemberService {
         //目前使用BeanUtil.copyProperties，需要多行代码，后续会对其做封装优化。
         Date now =new Date();
         member.setId(UuidUtil.getShortUuid());
+        member.setRegisterTime(now);
         memberMapper.insert(member);
     }
     /**
