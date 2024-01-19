@@ -12,10 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -93,6 +90,16 @@ public class MemberController {
         //这里也可以直接保存loginUserDto对象，但是需要序列化。如果是跨应用使用的，比如A应用存，B应用取，
         //一般会把值转成JSON字符串。
         responseDto.setContent(loginMemberDto);
+        return responseDto;
+    }
+    /**
+     * 退出登录
+     */
+    @GetMapping("/logout/{token}")
+    public ResponseDto logout(@PathVariable String token){
+        ResponseDto responseDto = new ResponseDto();
+        redisTemplate.delete(token);
+        LOG.info("从redis中删除token:{}",token);
         return responseDto;
     }
 }
