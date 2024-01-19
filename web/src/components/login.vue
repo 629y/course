@@ -224,7 +224,11 @@
               LocalStorage.set(LOCAL_KEY_REMEMBER_MEMBER,null);
             }
 
-            //登录成功 TODO
+            //登录成功
+            //要在子组件(login组件)中调用父组件(the-header组件)的xx方法(setLoginMember方法)，可以使用this.$parent.xxx
+            _this.$parent.setLoginMember(loginMember);
+            $("#login-modal").modal("hide");
+
           }else {
             Toast.warning(resp.message);
             _this.member.password = "";
