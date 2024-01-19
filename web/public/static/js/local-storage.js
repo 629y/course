@@ -1,4 +1,5 @@
-LOCAL_KEY_REMEMBER_USER = "LOCAL_KEY_REMEMBER_USER";//记住我
+LOCAL_KEY_REMEMBER_USER = "LOCAL_KEY_REMEMBER_USER";
+LOCAL_KEY_REMEMBER_MEMBER = "LOCAL_KEY_REMEMBER_MEMBER";
 LocalStorage = {
   get: function (key) {
     let v = localStorage.getItem(key);
