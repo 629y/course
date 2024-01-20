@@ -46,6 +46,11 @@
         "children": [
           {"id": "020401","name": "增删改查","request": ["/business/admin/member"]}
         ]
+      }, {
+        "id" : "0205","name": "短信管理","page": "business/sms",
+        "children": [
+          {"id": "020501","name": "增删改查","request": ["/business/admin/sms"]}
+        ]
       }
     ]
   },
