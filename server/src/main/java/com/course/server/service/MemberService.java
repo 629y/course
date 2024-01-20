@@ -75,6 +75,15 @@ public class MemberService {
 
     /**
      * 按手机号查找
+     * @param mobile
+     * @return
+     */
+    public MemberDto findByMobile(String mobile){
+        Member member = this.selectByMobile(mobile);
+        return CopyUtil.copy(member,MemberDto.class);
+    }
+    /**
+     * 按手机号查找
      * 这里登录时，需要验证手机号是否存在，和控台登录类似，控台登录时，需要验证登录名是否存在
      * @param mobile
      * @return
