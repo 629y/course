@@ -47,6 +47,35 @@ public class MemberDto {
      */
     private String imageCodeToken;
 
+    /**
+     * 短信验证码
+     */
+    private String smsCode;
+
+    public String getSmsCode() {
+        return smsCode;
+    }
+
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("MemberDto{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", mobile='").append(mobile).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", photo='").append(photo).append('\'');
+        sb.append(", registerTime=").append(registerTime);
+        sb.append(", imageCode='").append(imageCode).append('\'');
+        sb.append(", imageCodeToken='").append(imageCodeToken).append('\'');
+        sb.append(", smsCode='").append(smsCode).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
     public String getImageCode() {
         return imageCode;
     }
@@ -109,21 +138,6 @@ public class MemberDto {
 
     public void setRegisterTime(Date registerTime) {
     this.registerTime = registerTime;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("MemberDto{");
-        sb.append("id='").append(id).append('\'');
-        sb.append(", mobile='").append(mobile).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", photo='").append(photo).append('\'');
-        sb.append(", registerTime=").append(registerTime);
-        sb.append(", imageCode='").append(imageCode).append('\'');
-        sb.append(", imageCodeToken='").append(imageCodeToken).append('\'');
-        sb.append('}');
-        return sb.toString();
     }
 
 }
