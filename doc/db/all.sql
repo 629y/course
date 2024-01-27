@@ -200,14 +200,15 @@
 #   primary key (`id`)
 # ) engine=innodb default charset=utf8mb4 comment='资源';
 #
+# insert into `resource` values ('00','欢迎', 'welcome', null, null);
 # insert into `resource` values ('01','系统管理', null, null, null);
-# insert into `resource` values ('0101','用户管理', '/system/user', null, '01');
+# insert into `resource` values ('0101','用户管理', 'system/user', null, '01');
 # insert into `resource` values ('010101','保存', null,'["/system/admin/user/list","/system/admin/user/save"]','0101');
 # insert into `resource` values ('010102','删除', null, '["/system/admin/user/delete"]', '0101');
 # insert into `resource` values ('010103','重置密码', null, '["/system/admin/user/save-password"]', '0101');
-# insert into `resource` values ('0102','资源管理', '/system/resource', null, '01');
+# insert into `resource` values ('0102','资源管理', 'system/resource', null, '01');
 # insert into `resource` values ('010201','保存/显示', null, '["/system/admin/resource"]', '0102');
-# insert into `resource` values ('0103','角色管理','/system/role', null, '01');
+# insert into `resource` values ('0103','角色管理','system/role', null, '01');
 # insert into `resource` values ('010301','角色/权限管理', null, '["/system/admin/role"]', '0103');
 
 # drop table if exists `role`;
@@ -229,6 +230,7 @@
 #   `resource_id` char(6) not null comment '资源|id',
 #   primary key (`id`)
 # )engine = innodb default charset = utf8mb4 comment ='角色资源关联';
+# insert into `role_resource` values ('00000010','00000000','00');
 # insert into `role_resource` values ('00000000','00000000','01');
 # insert into `role_resource` values ('00000001','00000000','0101');
 # insert into `role_resource` values ('00000002','00000000','010101');
@@ -281,12 +283,12 @@
 # ('00000000','12345678901','123','R',now(),'N');
 
 #会员课程报名
-drop table if exists `member_course`;
-create table `member_course`(
-  `id` char(8) not null default '' comment 'id',
-  `member_id` varchar(8) not null comment '会员id',
-  `course_id` char(8) not null comment '课程id',
-  `at` datetime(3) not null comment '报名时间',
-  primary key (`id`),
-  unique key `member_course_unique`(`member_id`,`course_id`)
-)engine = innodb default  charset = utf8mb4 comment = '会员课程报名';
+# drop table if exists `member_course`;
+# create table `member_course`(
+#   `id` char(8) not null default '' comment 'id',
+#   `member_id` varchar(8) not null comment '会员id',
+#   `course_id` char(8) not null comment '课程id',
+#   `at` datetime(3) not null comment '报名时间',
+#   primary key (`id`),
+#   unique key `member_course_unique`(`member_id`,`course_id`)
+# )engine = innodb default  charset = utf8mb4 comment = '会员课程报名';
