@@ -181,9 +181,11 @@
         }).then((response) => {
           Loading.hide();
           let resp = response.data;
-          _this.users = resp.content.list;
-          //response.data 就相当于responseDto
-          _this.$refs.pagination.render(page,resp.content.total);
+          if (resp.success){
+            _this.users = resp.content.list;
+            //response.data 就相当于responseDto
+            _this.$refs.pagination.render(page,resp.content.total);
+          }
         })
       },
       /**
