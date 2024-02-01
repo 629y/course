@@ -117,7 +117,8 @@ public class UserController {
         String token = UuidUtil.getShortUuid();
         loginUserDto.setToken(token);
 //        request.getSession().setAttribute(Constants.LOGIN_USER,loginUserDto);
-        redisTemplate.opsForValue().set(token, JSON.toJSONString(loginUserDto),3600, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(token,
+                JSON.toJSONString(loginUserDto),3600, TimeUnit.SECONDS);
         //这里也可以直接保存loginUserDto对象，但是需要序列化。如果是跨应用使用的，比如A应用存，B应用取，
         //一般会把值转成JSON字符串。
         responseDto.setContent(loginUserDto);
