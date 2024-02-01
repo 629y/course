@@ -150,6 +150,10 @@ export default {
     add() {
       let _this = this;
       // 发现问题：对文本框编辑后，点新增弹出文本框，会带出上一次编辑过的值。
+      //新增讲师，上传头像后不能实时预览，解决方法一
+      // _this.teacher = {
+      //   image:null
+      // };
       _this.teacher = {};
       $("#form-modal").modal("show");//打开
       //$("#form-modal").modal("hide");//关闭
@@ -238,6 +242,8 @@ export default {
       let _this = this;
       let image = resp.content.path;
       _this.teacher.image = image;
+      //新增讲师，上传头像后不能实时预览，解决方法二
+      _this.$forceUpdate();
     }
   }
 }
