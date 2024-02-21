@@ -47,13 +47,14 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.course.file.config.FileApplication</mainClass>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <mainClass>com.course.file.config.FileApplication</mainClass>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>
